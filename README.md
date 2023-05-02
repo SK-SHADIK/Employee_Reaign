@@ -9,7 +9,7 @@
 
 <h3 style="font-size:30px;">Getting Started</h3>
 <p>Clone the repo: </p>
-<a style="border:2px solid #000; border-radius:10px; background:#000; padding: 10px;" href=""></a><br><br><br>
+<a style="border:2px solid #000; border-radius:10px; background:#000; padding: 10px;" href="https://github.com/praava-shadik/Employee_Reaign.git">https://github.com/praava-shadik/Employee_Reaign.git</a><br><br><br>
 
 <p>After finisheing the clone update the composer in the appointments-praavahealth project</p>
 <p style="font-size:14px; border:2px solid #000; border-radius:10px; background:#000; padding: 10px;" >composer update</p><br><br>
