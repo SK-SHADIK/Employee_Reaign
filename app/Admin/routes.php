@@ -12,7 +12,12 @@ Route::group([
 ], function (Router $router) {
 
     $router->get('/', 'HomeController@index')->name('home');
+
     Route::resource('employee', EmployeeController::class);
-    
+    Route::resource('employee-access-tool', EmployeeAccessToolController::class);
+    Route::resource('employee-sign', EmployeeSignController::class);
+    Route::resource('employee-reaign-tool', EmployeeReaignToolController::class);
+
+
 
 });

@@ -28,11 +28,10 @@ class EmployeeAccessToolController extends AdminController
 
         $grid->column('id', __('Id'));
         $grid->column('tool', __('Tool'));
-        $grid->column('status', __('Status'));
-        $grid->column('cb', __('Cb'));
+        $grid->column('status', __('Status'))->display(function ($value) {
+            return $value ? '<span style="color: green; font-weight:900; ">Active</span>' :
+            '<span style="color: red; font-weight:900; ">Not Active</span>';});
         $grid->column('cd', __('Cd'));
-        $grid->column('ub', __('Ub'));
-        $grid->column('ud', __('Ud'));
 
         return $grid;
     }
@@ -69,8 +68,8 @@ class EmployeeAccessToolController extends AdminController
 
         $form->text('tool', __('Tool'));
         $form->switch('status', __('Status'))->default(1);
-        $form->text('cb', __('Cb'));
-        $form->text('ub', __('Ub'));
+        $form->hidden('cb', __('Cb'))->value(auth()->user()->name);
+        $form->hidden('ub', __('Ub'))->value(auth()->user()->name);
 
         return $form;
     }

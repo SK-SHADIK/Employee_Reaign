@@ -32,10 +32,7 @@ class EmployeeReaignToolController extends AdminController
         $grid->column('had_access', __('Had access'));
         $grid->column('access_removed', __('Access removed'));
         $grid->column('remarks', __('Remarks'));
-        $grid->column('cb', __('Cb'));
         $grid->column('cd', __('Cd'));
-        $grid->column('ub', __('Ub'));
-        $grid->column('ud', __('Ud'));
 
         return $grid;
     }
@@ -78,8 +75,8 @@ class EmployeeReaignToolController extends AdminController
         $form->switch('had_access', __('Had access'));
         $form->switch('access_removed', __('Access removed'));
         $form->text('remarks', __('Remarks'));
-        $form->text('cb', __('Cb'));
-        $form->text('ub', __('Ub'));
+        $form->hidden('cb', __('Cb'))->value(auth()->user()->name);
+        $form->hidden('ub', __('Ub'))->value(auth()->user()->name);
 
         return $form;
     }

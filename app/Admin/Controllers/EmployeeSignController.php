@@ -29,10 +29,7 @@ class EmployeeSignController extends AdminController
         $grid->column('id', __('Id'));
         $grid->column('employee_id', __('Employee id'));
         $grid->column('employee_sign', __('Employee sign'));
-        $grid->column('cb', __('Cb'));
         $grid->column('cd', __('Cd'));
-        $grid->column('ub', __('Ub'));
-        $grid->column('ud', __('Ud'));
 
         return $grid;
     }
@@ -69,8 +66,8 @@ class EmployeeSignController extends AdminController
 
         $form->number('employee_id', __('Employee id'));
         $form->textarea('employee_sign', __('Employee sign'));
-        $form->text('cb', __('Cb'));
-        $form->text('ub', __('Ub'));
+        $form->hidden('cb', __('Cb'))->value(auth()->user()->name);
+        $form->hidden('ub', __('Ub'))->value(auth()->user()->name);
 
         return $form;
     }
