@@ -12,5 +12,7 @@ Route::group([
 ], function (Router $router) {
 
     $router->get('/', 'HomeController@index')->name('home');
+    Route::resource('employee', EmployeeController::class);
+    
 
 });

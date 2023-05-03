@@ -19,6 +19,7 @@ class CreateEmployeeReaignToolTable extends Migration
             $table->unsignedbiginteger('employee_access_tool_id');
             $table->boolean('had_access')->default(false);
             $table->boolean('access_removed')->default(false);
+            $table->string('remarks', 255);
             $table->string('cb', 255)->nullable();
             $table->timestamp('cd')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->string('ub', 255)->nullable();
