@@ -10,4 +10,6 @@ class EmployeeAccessTool extends Model
     protected $table = "employee_access_tool";
     const CREATED_AT = 'cd';
     const UPDATED_AT = 'ud';
+    protected $fillable = ['employee_id', 'tool', 'had_access', 'access_removed', 'remarks'];
+
 }

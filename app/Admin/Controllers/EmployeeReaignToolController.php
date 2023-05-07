@@ -70,11 +70,38 @@ class EmployeeReaignToolController extends AdminController
     {
         $form = new Form(new EmployeeReaignTool());
 
-        $form->number('employee_id', __('Employee id'));
-        $form->number('employee_access_tool_id', __('Employee access tool id'));
-        $form->switch('had_access', __('Had access'));
-        $form->switch('access_removed', __('Access removed'));
-        $form->text('remarks', __('Remarks'));
+        $Employee = \App\Models\Employee::pluck('emp_id', 'id')->toArray();
+        $form->select('employee_id', __('Employee_ID'))->options($Employee);
+        $tools = \App\Models\EmployeeAccessTool::all();        
+
+        foreach ($tools as $tool) {
+            $form->text("Tool Name")->value($tool->tool)->readonly();
+            $form->switch('had_access', __('Had access'));
+            $form->switch('access_removed', __('Access removed'));
+            $form->textarea('remarks', __('Remarks'));
+        }
+
+        $form->saving(function (Form $form) {
+            $employeeId = $form->input('employee_id');
+            $toolName = $form->input('Tool Name');
+            $hadAccess = $form->input('had_access');
+            $accessRemoved = $form->input('access_removed');
+            $remarks = $form->input('remarks');
+            
+            $resignObj = new \App\Models\EmployeeReaignTool();
+            $employeeAccessTool = [
+                'employee_id' => 2,
+                'employee_access_tool_id' => 1,
+                // 'had_access' => $hadAccess,
+                'had_access' => true,
+                // 'access_removed' => $accessRemoved,
+                'access_removed' => false,
+                'remarks' => "abc",
+            ];
+            
+            $resignObj->create($employeeAccessTool);
+        });
+        
         $form->hidden('cb', __('Cb'))->value(auth()->user()->name);
         $form->hidden('ub', __('Ub'))->value(auth()->user()->name);
 

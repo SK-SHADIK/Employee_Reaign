@@ -7,6 +7,8 @@ use Encore\Admin\Controllers\AdminController;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Show;
+use Intervention\Image\ImageManagerStatic as Image;
+
 
 class EmployeeSignController extends AdminController
 {
@@ -27,7 +29,8 @@ class EmployeeSignController extends AdminController
         $grid = new Grid(new EmployeeSign());
 
         $grid->column('id', __('Id'));
-        $grid->column('employee_id', __('Employee id'));
+        $grid->emptable()->emp_id('Employee_ID');
+        $grid->emptable()->emp_name('Employee_Name');
         $grid->column('employee_sign', __('Employee sign'));
         $grid->column('cd', __('Cd'));
 
@@ -64,11 +67,22 @@ class EmployeeSignController extends AdminController
     {
         $form = new Form(new EmployeeSign());
 
-        $form->number('employee_id', __('Employee id'));
-        $form->textarea('employee_sign', __('Employee sign'));
-        $form->hidden('cb', __('Cb'))->value(auth()->user()->name);
-        $form->hidden('ub', __('Ub'))->value(auth()->user()->name);
+        
+       $Employee = \App\Models\Employee::pluck('emp_id', 'id')->toArray();
+       $form->select('employee_id', __('Employee_ID'))->options($Employee)->rules('required');
+       $form->image('image_field', 'Image')->base64();
+    //    $imagePath = public_path('storage');
+    //    $base64 = base64_encode(file_get_contents($imagePath));
 
-        return $form;
+    //    $image = Image::make(base64_decode($image_field));
+    //    $image->resize(300, 200);
+    //    $image->save('path/to/new-image.jpg');
+       
+    //    $form->hidden('employee_sign', __('employee_sign'))->value($image_field);
+       
+       $form->hidden('cb', __('Cb'))->value(auth()->user()->name);
+       $form->hidden('ub', __('Ub'))->value(auth()->user()->name);
+       
+       return $form;
     }
 }
