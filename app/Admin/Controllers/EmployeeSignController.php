@@ -77,6 +77,7 @@ class EmployeeSignController extends AdminController
             ];
         })->pluck('label', 'id')->toArray();
         $form->select('employee_id', __('Employee ID & Name'))->options($Emp);
+
        $form->image('employee_sign', 'Image');
        
        $form->hidden('cb', __('Cb'))->value(auth()->user()->name);

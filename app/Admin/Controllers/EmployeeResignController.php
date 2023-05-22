@@ -2,20 +2,20 @@
 
 namespace App\Admin\Controllers;
 
-use App\Models\EmployeeReaignTool;
+use App\Models\EmployeeResign;
 use Encore\Admin\Controllers\AdminController;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Show;
 
-class EmployeeReaignToolController extends AdminController
+class EmployeeResignController extends AdminController
 {
     /**
      * Title for current resource.
      *
      * @var string
      */
-    protected $title = 'EmployeeReaignTool';
+    protected $title = 'EmployeeResign';
 
     /**
      * Make a grid builder.
@@ -24,7 +24,7 @@ class EmployeeReaignToolController extends AdminController
      */
     protected function grid()
     {
-        $grid = new Grid(new EmployeeReaignTool());
+        $grid = new Grid(new EmployeeResign());
 
         $grid->column('id', __('Id'));
         $grid->column('employee_id', __('Employee id'));
@@ -45,7 +45,7 @@ class EmployeeReaignToolController extends AdminController
      */
     protected function detail($id)
     {
-        $show = new Show(EmployeeReaignTool::findOrFail($id));
+        $show = new Show(EmployeeResign::findOrFail($id));
 
         $show->field('id', __('Id'));
         $show->field('employee_id', __('Employee id'));
@@ -68,7 +68,7 @@ class EmployeeReaignToolController extends AdminController
      */
     protected function form()
     {
-        $form = new Form(new EmployeeReaignTool());
+        $form = new Form(new EmployeeResign());
 
         $Employee = \App\Models\Employee::pluck('emp_id', 'id')->toArray();
         $form->select('employee_id', __('Employee_ID'))->options($Employee);

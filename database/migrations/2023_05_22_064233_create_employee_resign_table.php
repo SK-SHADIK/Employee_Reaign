@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateEmployeeReaignToolTable extends Migration
+class CreateEmployeeResignTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateEmployeeReaignToolTable extends Migration
      */
     public function up()
     {
-        Schema::create('employee_reaign_tool', function (Blueprint $table) {
+        Schema::create('employee_resign', function (Blueprint $table) {
             $table->id();
             $table->unsignedbiginteger('employee_id');
             $table->unsignedbiginteger('employee_access_tool_id');
@@ -37,6 +37,6 @@ class CreateEmployeeReaignToolTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('employee_reaign_tool');
+        Schema::dropIfExists('employee_resign');
     }
 }
