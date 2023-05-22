@@ -72,7 +72,7 @@ class EmployeeReaignToolController extends AdminController
 
         $Employee = \App\Models\Employee::pluck('emp_id', 'id')->toArray();
         $form->select('employee_id', __('Employee_ID'))->options($Employee);
-        $tools = \App\Models\EmployeeAccessTool::all();        
+        $tools = \App\Models\EmployeeAccessTool::all();
 
         foreach ($tools as $tool) {
             $form->text("Tool Name")->value($tool->tool)->readonly();
@@ -90,13 +90,11 @@ class EmployeeReaignToolController extends AdminController
             
             $resignObj = new \App\Models\EmployeeReaignTool();
             $employeeAccessTool = [
-                'employee_id' => 2,
+                'employee_id' => $employeeId,
                 'employee_access_tool_id' => 1,
-                // 'had_access' => $hadAccess,
-                'had_access' => true,
-                // 'access_removed' => $accessRemoved,
-                'access_removed' => false,
-                'remarks' => "abc",
+                'had_access' => $hadAccess,
+                'access_removed' => $accessRemoved,
+                'remarks' => $remarks,
             ];
             
             $resignObj->create($employeeAccessTool);

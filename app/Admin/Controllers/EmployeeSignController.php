@@ -8,7 +8,7 @@ use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Show;
 use Intervention\Image\ImageManagerStatic as Image;
-
+use Illuminate\Support\Str;
 
 class EmployeeSignController extends AdminController
 {
@@ -31,8 +31,10 @@ class EmployeeSignController extends AdminController
         $grid->column('id', __('Id'));
         $grid->emptable()->emp_id('Employee_ID');
         $grid->emptable()->emp_name('Employee_Name');
-        $grid->column('employee_sign', __('Employee sign'));
         $grid->column('cd', __('Cd'));
+        $grid->column('employee_sign', __('Employee sign'));
+
+        $grid->model()->orderBy('id', 'desc');
 
         return $grid;
     }
@@ -68,21 +70,30 @@ class EmployeeSignController extends AdminController
         $form = new Form(new EmployeeSign());
 
         
-       $Employee = \App\Models\Employee::pluck('emp_id', 'id')->toArray();
-       $form->select('employee_id', __('Employee_ID'))->options($Employee)->rules('required');
-       $form->image('image_field', 'Image')->base64();
-    //    $imagePath = public_path('storage');
-    //    $base64 = base64_encode(file_get_contents($imagePath));
-
-    //    $image = Image::make(base64_decode($image_field));
-    //    $image->resize(300, 200);
-    //    $image->save('path/to/new-image.jpg');
-       
-    //    $form->hidden('employee_sign', __('employee_sign'))->value($image_field);
+        $Emp = \App\Models\Employee::all()->map(function ($emp) {
+            return [
+                'id' => $emp->id,
+                'label' => "{$emp->emp_id} - {$emp->emp_name}",
+            ];
+        })->pluck('label', 'id')->toArray();
+        $form->select('employee_id', __('Employee ID & Name'))->options($Emp);
+       $form->image('employee_sign', 'Image');
        
        $form->hidden('cb', __('Cb'))->value(auth()->user()->name);
        $form->hidden('ub', __('Ub'))->value(auth()->user()->name);
+
+       $form->saved(function (Form $form) {
+            $id=$form->model()->id;
+            $employeeSign=EmployeeSign::find($id);
+            
+            $imagePath = public_path('upload/' . $employeeSign->employee_sign);
+            $imageData = 'data:image/png;base64,' . base64_encode(file_get_contents($imagePath));
+            $employeeSign->employee_sign = $imageData;
+            $employeeSign->save();
+            unlink($imagePath);
+        });
        
        return $form;
     }
+    
 }
