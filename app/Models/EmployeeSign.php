@@ -13,6 +13,6 @@ class EmployeeSign extends Model
 
     public function emptable()
     {
-        return $this->hasOne(Employee::class, 'id', 'employee_id'); 
+        return $this->hasOne(Employee::class, 'id', 'employee_id');
     }
 }

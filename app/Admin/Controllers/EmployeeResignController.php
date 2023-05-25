@@ -4,6 +4,7 @@ namespace App\Admin\Controllers;
 
 use App\Models\EmployeeResign;
 use Encore\Admin\Controllers\AdminController;
+use Encore\Admin\Layout\Content;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Show;
@@ -78,7 +79,7 @@ class EmployeeResignController extends AdminController
             $form->text("Tool Name")->value($tool->tool)->readonly();
             $form->switch('had_access', __('Had access'));
             $form->switch('access_removed', __('Access removed'));
-            $form->textarea('remarks', __('Remarks'));
+            $form->text('remarks', __('Remarks'));
         }
 
         $form->saving(function (Form $form) {
@@ -104,5 +105,11 @@ class EmployeeResignController extends AdminController
         $form->hidden('ub', __('Ub'))->value(auth()->user()->name);
 
         return $form;
+    }
+    public function create(Content $content)
+    {
+        return $content
+            ->title('Create')
+            ->view('resign');
     }
 }

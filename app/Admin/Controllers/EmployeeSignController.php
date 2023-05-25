@@ -33,6 +33,12 @@ class EmployeeSignController extends AdminController
         $grid->emptable()->emp_name('Employee_Name');
         $grid->column('cd', __('Cd'));
         $grid->column('employee_sign', __('Employee sign'));
+        // $grid->column('employee_sign', __('Employee sign'))->display(function ($value) {
+        //     $imageData = base64_decode($value);
+        //     // dd($imageData);
+        
+        //     return "<img src='" . $imageData . "' alt='Employee Sign' />";
+        // });
 
         $grid->model()->orderBy('id', 'desc');
 

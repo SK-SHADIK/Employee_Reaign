@@ -17,6 +17,7 @@ Route::group([
     Route::resource('employee-access-tool', EmployeeAccessToolController::class);
     Route::resource('employee-sign', EmployeeSignController::class);
     Route::resource('employee-resign', EmployeeResignController::class);
+    $router->get('create', [EmployeeResignController::class, 'create']);
 
 
 
