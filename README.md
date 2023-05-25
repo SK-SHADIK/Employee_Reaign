@@ -29,7 +29,7 @@
 <p style="font-size:14px; border:2px solid #000; border-radius:10px; background:#000; padding: 10px;">DB_CONNECTION=pgsql<br>
 DB_HOST=localhost<br>
 DB_PORT=5432<br>
-DB_DATABASE=employee_reaign<br>
+DB_DATABASE=employee_resign<br>
 DB_USERNAME=postgres<br>
 DB_PASSWORD=</p><br><br>
 
