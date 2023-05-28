@@ -7,8 +7,7 @@ use Encore\Admin\Controllers\AdminController;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Show;
-use Intervention\Image\ImageManagerStatic as Image;
-use Illuminate\Support\Str;
+use Illuminate\Database\Eloquent\Builder;
 
 class EmployeeSignController extends AdminController
 {
@@ -28,15 +27,26 @@ class EmployeeSignController extends AdminController
     {
         $grid = new Grid(new EmployeeSign());
 
-        $grid->column('id', __('Id'));
-        $grid->emptable()->emp_id('Employee_ID');
+        $grid->column('id', __('Id'))->sortable();
+        $grid->emptable()->emp_id('Employee_ID')->sortable();
         $grid->emptable()->emp_name('Employee_Name');
         $grid->column('employee_sign', __('Employee sign'))->display(function ($value) {
             
             $decodeImage = "<img src='" . $value . "' alt='Employee Sign' style='height: 200px; width:400px;' />";
             return $decodeImage;
         });
-        $grid->column('cd', __('Cd'));
+        $grid->column('cd', __('Cd'))->sortable();
+
+        $grid->quickSearch(function ($model, $query) {
+            $model->orWhereHas('employee', function (Builder $queryr) use ($query) {
+                $queryr->where('emp_id', 'like', "%{$query}%");
+            });
+            $model->orWhereHas('employee', function (Builder $queryr) use ($query) {
+                $queryr->where('emp_name', 'like', "%{$query}%");
+            });
+        })->placeholder('Search Here Employee id Or Name...');
+
+        $grid->disableFilter();
 
 
         $grid->model()->orderBy('id', 'desc');

@@ -15,7 +15,7 @@ class EmployeeAccessToolController extends AdminController
      *
      * @var string
      */
-    protected $title = 'EmployeeAccessTool';
+    protected $title = 'Employee Access Tool';
 
     /**
      * Make a grid builder.
@@ -26,12 +26,18 @@ class EmployeeAccessToolController extends AdminController
     {
         $grid = new Grid(new EmployeeAccessTool());
 
-        $grid->column('id', __('Id'));
+        $grid->column('id', __('Id'))->sortable();
         $grid->column('tool', __('Tool'));
         $grid->column('status', __('Status'))->display(function ($value) {
             return $value ? '<span style="color: green; font-weight:900; ">Active</span>' :
             '<span style="color: red; font-weight:900; ">Not Active</span>';});
-        $grid->column('cd', __('Cd'));
+        $grid->column('cd', __('Cd'))->sortable();
+
+        $grid->filter(function ($filter) {
+            $filter->like('tool', __('Tool'));
+        });
+
+        $grid->model()->orderBy('id', 'desc');
 
         return $grid;
     }

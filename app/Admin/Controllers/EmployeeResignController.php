@@ -9,6 +9,8 @@ use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Show;
 
+use Illuminate\Http\Request;
+
 class EmployeeResignController extends AdminController
 {
     /**
@@ -103,13 +105,36 @@ class EmployeeResignController extends AdminController
         
         // $form->hidden('cb', __('Cb'))->value(auth()->user()->name);
         // $form->hidden('ub', __('Ub'))->value(auth()->user()->name);
+        $employees = \App\Models\Employee::all();
+        $tools = \App\Models\EmployeeAccessTool::all(); 
 
-        return view('resign');
+        return view('resign', ['employees' => $employees, 'tools' => $tools]);
     }
     // public function create(Content $content)
     // {
+    //     $employees = \App\Models\Employee::all();
+    //     $tools = \App\Models\EmployeeAccessTool::all();        
+
     //     return $content
     //         ->title('Create')
-    //         ->view('resign');
+    //         ->view('resign', ['employees' => $employees, 'tools' => $tools]);
+    // }
+    // public function store(Request $request)
+    // {
+    //     dd($request);
+
+    //     // Create a new AccessRecord instance and set the values
+    //     $accessRecord = new EmployeeResign();
+    //     $accessRecord->employee_id = $request->input('employee_id');
+    //     $accessRecord->employee_access_tool_id = $request->input('access_tool_id');
+    //     $accessRecord->had_access = $request->has('had_access') ? true : false;
+    //     $accessRecord->access_removed = $request->has('access_removed') ? true : false;
+    //     $accessRecord->remarks = $request->input('remarks');
+
+    //     // Save the access record
+    //     $accessRecord->save();
+
+    //     // Redirect back or to a success page
+    //     return redirect()->back()->with('success', 'Access record saved successfully.');
     // }
 }
