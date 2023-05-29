@@ -81,13 +81,13 @@ class EmployeeResignController extends AdminController
     {
         $form = new Form(new EmployeeResign());
 
-        $Emp = \App\Models\Employee::all()->map(function ($emp) {
+        $Employee = \App\Models\Employee::all()->map(function ($emp) {
             return [
                 'id' => $emp->id,
                 'label' => "{$emp->emp_id} - {$emp->emp_name}",
             ];
         })->pluck('label', 'id')->toArray();
-        $form->select('employee_id', __('Employee ID & Name'))->options($Emp);
+        $form->select('employee_id', __('Employee ID & Name'))->options($Employee);
 
 
         $tools = \App\Models\EmployeeAccessTool::all();
