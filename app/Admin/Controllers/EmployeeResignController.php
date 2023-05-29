@@ -30,12 +30,20 @@ class EmployeeResignController extends AdminController
         $grid = new Grid(new EmployeeResign());
 
         $grid->column('id', __('Id'));
-        $grid->column('employee_id', __('Employee id'));
-        $grid->column('employee_access_tool_id', __('Employee access tool id'));
-        $grid->column('had_access', __('Had access'));
-        $grid->column('access_removed', __('Access removed'));
+        $grid->emptable()->emp_id('Employee_ID');
+        $grid->emptable()->emp_name('Employee_Name');
+        $grid->tool()->tool('Access Tool');
+        $grid->column('had_access', __('Had access'))->display(function ($value) {
+            return $value ? '<span style="color: green; font-weight:900; ">Yes</span>' :
+            '<span style="color: red; font-weight:900; ">No</span>';});
+
+        $grid->column('access_removed', __('Access removed'))->display(function ($value) {
+            return $value ? '<span style="color: green; font-weight:900; ">Yes</span>' :
+            '<span style="color: red; font-weight:900; ">No</span>';});
         $grid->column('remarks', __('Remarks'));
         $grid->column('cd', __('Cd'));
+
+        $grid->model()->orderBy('id', 'desc');
 
         return $grid;
     }
@@ -73,68 +81,48 @@ class EmployeeResignController extends AdminController
     {
         $form = new Form(new EmployeeResign());
 
-        // $Employee = \App\Models\Employee::pluck('emp_id', 'id')->toArray();
-        // $form->select('employee_id', __('Employee_ID'))->options($Employee);
-        // $tools = \App\Models\EmployeeAccessTool::all();
+        $Emp = \App\Models\Employee::all()->map(function ($emp) {
+            return [
+                'id' => $emp->id,
+                'label' => "{$emp->emp_id} - {$emp->emp_name}",
+            ];
+        })->pluck('label', 'id')->toArray();
+        $form->select('employee_id', __('Employee ID & Name'))->options($Emp);
 
-        // foreach ($tools as $tool) {
-        //     $form->text("Tool Name")->value($tool->tool)->readonly();
-        //     $form->switch('had_access', __('Had access'));
-        //     $form->switch('access_removed', __('Access removed'));
-        //     $form->text('remarks', __('Remarks'));
-        // }
 
-        // $form->saving(function (Form $form) {
-        //     $employeeId = $form->input('employee_id');
-        //     $toolName = $form->input('Tool Name');
-        //     $hadAccess = $form->input('had_access');
-        //     $accessRemoved = $form->input('access_removed');
-        //     $remarks = $form->input('remarks');
-            
-        //     $resignObj = new \App\Models\EmployeeReaignTool();
-        //     $employeeAccessTool = [
-        //         'employee_id' => $employeeId,
-        //         'employee_access_tool_id' => 1,
-        //         'had_access' => $hadAccess,
-        //         'access_removed' => $accessRemoved,
-        //         'remarks' => $remarks,
-        //     ];
-            
-        //     $resignObj->create($employeeAccessTool);
-        // });
+        $tools = \App\Models\EmployeeAccessTool::all();
         
-        // $form->hidden('cb', __('Cb'))->value(auth()->user()->name);
-        // $form->hidden('ub', __('Ub'))->value(auth()->user()->name);
-        $employees = \App\Models\Employee::all();
-        $tools = \App\Models\EmployeeAccessTool::all(); 
+        foreach ($tools as $tool) {
+            $form->text('employee_access_tool_id')->value($tool->id)->readonly();
+            $form->switch('had_access', __('Had access'));
+            $form->switch('access_removed', __('Access removed'));
+            $form->text('remarks', __('Remarks'));
 
-        return view('resign', ['employees' => $employees, 'tools' => $tools]);
+            
+            $form->saving(function (Form $form) use ($tool) {
+                $employeeId = $form->input('employee_id');
+                $toolId = $tool->id;
+                $hadAccess = $form->input('had_access');
+                $accessRemoved = $form->input('access_removed');
+                $remarks = $form->input('remarks');
+                
+                $resignObj = new \App\Models\EmployeeResign();
+                $employeeAccessTool = [
+                    'employee_id' => $employeeId,
+                    'employee_access_tool_id' => $toolId,
+                    'had_access' => $hadAccess,
+                    'access_removed' => $accessRemoved,
+                    'remarks' => $remarks,
+                ];
+                
+                $resignObj->create($employeeAccessTool);
+            });
+        }
+
+        $form->hidden('cb', __('Cb'))->value(auth()->user()->name);
+        $form->hidden('ub', __('Ub'))->value(auth()->user()->name);
+
+        return $form;
     }
-    // public function create(Content $content)
-    // {
-    //     $employees = \App\Models\Employee::all();
-    //     $tools = \App\Models\EmployeeAccessTool::all();        
-
-    //     return $content
-    //         ->title('Create')
-    //         ->view('resign', ['employees' => $employees, 'tools' => $tools]);
-    // }
-    // public function store(Request $request)
-    // {
-    //     dd($request);
-
-    //     // Create a new AccessRecord instance and set the values
-    //     $accessRecord = new EmployeeResign();
-    //     $accessRecord->employee_id = $request->input('employee_id');
-    //     $accessRecord->employee_access_tool_id = $request->input('access_tool_id');
-    //     $accessRecord->had_access = $request->has('had_access') ? true : false;
-    //     $accessRecord->access_removed = $request->has('access_removed') ? true : false;
-    //     $accessRecord->remarks = $request->input('remarks');
-
-    //     // Save the access record
-    //     $accessRecord->save();
-
-    //     // Redirect back or to a success page
-    //     return redirect()->back()->with('success', 'Access record saved successfully.');
-    // }
+    
 }
