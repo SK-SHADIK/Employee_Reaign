@@ -127,6 +127,7 @@ class EmployeeResignController extends AdminController
                     'access_removed' => $accessRemoved,
                     'remarks' => $remarks,
                 ];
+                
                 $resignObj->create($employeeAccessTool);
             });
         }
