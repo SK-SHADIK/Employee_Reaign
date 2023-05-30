@@ -29,12 +29,20 @@ class EmployeeResignController extends AdminController
         $grid = new Grid(new EmployeeResign());
 
         $grid->column('id', __('Id'));
-        $grid->column('employee_id', __('Employee id'));
-        $grid->column('employee_access_tool_id', __('Employee access tool id'));
-        $grid->column('had_access', __('Had access'));
-        $grid->column('access_removed', __('Access removed'));
+        $grid->emptable()->emp_id('Employee_ID');
+        $grid->emptable()->emp_name('Employee_Name');
+        $grid->tool()->tool('Access Tool');
+        $grid->column('had_access', __('Had access'))->display(function ($value) {
+            return $value ? '<span style="color: green; font-weight:900; ">Yes</span>' :
+            '<span style="color: red; font-weight:900; ">No</span>';});
+
+        $grid->column('access_removed', __('Access removed'))->display(function ($value) {
+            return $value ? '<span style="color: green; font-weight:900; ">Yes</span>' :
+            '<span style="color: red; font-weight:900; ">No</span>';});
         $grid->column('remarks', __('Remarks'));
         $grid->column('cd', __('Cd'));
+
+        $grid->model()->orderBy('id', 'desc');
 
         return $grid;
     }
@@ -104,4 +112,66 @@ class EmployeeResignController extends AdminController
     $form->hidden('ub', __('Ub'))->value(auth()->user()->name);
     return $form;
 }
+    {
+        $form = new Form(new EmployeeResign());
+
+        $Employee = \App\Models\Employee::all()->map(function ($emp) {
+            return [
+                'id' => $emp->id,
+                'label' => "{$emp->emp_id} - {$emp->emp_name}",
+            ];
+        })->pluck('label', 'id')->toArray();
+        
+        $form->select('employee_id', __('Employee ID & Name'))->options($Employee);
+        
+        $tools = \App\Models\EmployeeAccessTool::all();
+        
+        foreach ($tools as $tool) {
+            $form->text('employee_access_tool_id_'.$tool->id)->value($tool->id)->readonly();
+            $form->switch('had_access_'.$tool->id, __('Had access'));
+            $form->switch('access_removed_'.$tool->id, __('Access removed'));
+            $form->text('remarks_'.$tool->id, __('Remarks'));
+        
+            $form->saving(function (Form $form) use ($tool) {
+                $employeeId = $form->input('employee_id');
+                $toolId = $tool->id;
+                $hadAccess = $form->input('had_access_'.$toolId);
+                $accessRemoved = $form->input('access_removed_'.$toolId);
+                $remarks = $form->input('remarks_'.$toolId);
+
+                // $trimmedToolId = trim($toolId, '_');
+                // $hadAccess = $hadAccess === $trimmedToolId ? null : $hadAccess;
+                // $trimmedToolId2 = trim($toolId, '_');
+                // $accessRemoved = $accessRemoved === $trimmedToolId2 ? null : $accessRemoved;
+                // $trimmedToolId3 = trim($toolId, '_');
+                // $remarks = $remarks === $trimmedToolId3 ? null : $remarks;
+
+                $splitToolId = explode('_', $toolId)[0];
+                $hadAccess = $hadAccess === $splitToolId ? null : $hadAccess;
+                $splitToolId2 = explode('_', $toolId)[0];
+                $accessRemoved = $accessRemoved === $splitToolId2 ? null : $accessRemoved;
+                $splitToolId3 = explode('_', $toolId)[0];
+                $remarks = $remarks === $splitToolId3 ? null : $remarks;
+        
+                $resignObj = new \App\Models\EmployeeResign();
+                $employeeAccessTool = [
+                    'employee_id' => $employeeId,
+                    'employee_access_tool_id' => $toolId,
+                    'had_access' => $hadAccess,
+                    'access_removed' => $accessRemoved,
+                    'remarks' => $remarks,
+                ];
+        
+                $resignObj->create($employeeAccessTool);
+            });
+        }
+        
+
+        $form->hidden('cb', __('Cb'))->value(auth()->user()->name);
+        $form->hidden('ub', __('Ub'))->value(auth()->user()->name);
+
+        return $form;
+    }
+    
+
 }
