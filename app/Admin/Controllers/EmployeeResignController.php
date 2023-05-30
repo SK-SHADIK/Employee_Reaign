@@ -87,9 +87,9 @@ class EmployeeResignController extends AdminController
                 'label' => "{$emp->emp_id} - {$emp->emp_name}",
             ];
         })->pluck('label', 'id')->toArray();
+        
         $form->select('employee_id', __('Employee ID & Name'))->options($Employee);
-
-
+        
         $tools = \App\Models\EmployeeAccessTool::all();
         
         foreach ($tools as $tool) {
@@ -97,15 +97,14 @@ class EmployeeResignController extends AdminController
             $form->switch('had_access', __('Had access'));
             $form->switch('access_removed', __('Access removed'));
             $form->text('remarks', __('Remarks'));
-
-            
+        
             $form->saving(function (Form $form) use ($tool) {
                 $employeeId = $form->input('employee_id');
                 $toolId = $tool->id;
                 $hadAccess = $form->input('had_access');
                 $accessRemoved = $form->input('access_removed');
                 $remarks = $form->input('remarks');
-                
+        
                 $resignObj = new \App\Models\EmployeeResign();
                 $employeeAccessTool = [
                     'employee_id' => $employeeId,
@@ -114,10 +113,11 @@ class EmployeeResignController extends AdminController
                     'access_removed' => $accessRemoved,
                     'remarks' => $remarks,
                 ];
-                
+        
                 $resignObj->create($employeeAccessTool);
             });
         }
+        
 
         $form->hidden('cb', __('Cb'))->value(auth()->user()->name);
         $form->hidden('ub', __('Ub'))->value(auth()->user()->name);
