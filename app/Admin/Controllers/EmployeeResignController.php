@@ -146,12 +146,12 @@ class EmployeeResignController extends AdminController
                 // $trimmedToolId3 = trim($toolId, '_');
                 // $remarks = $remarks === $trimmedToolId3 ? null : $remarks;
 
-                $splitToolId = explode('_', $toolId)[0];
-                $hadAccess = $hadAccess === $splitToolId ? null : $hadAccess;
-                $splitToolId2 = explode('_', $toolId)[0];
-                $accessRemoved = $accessRemoved === $splitToolId2 ? null : $accessRemoved;
-                $splitToolId3 = explode('_', $toolId)[0];
-                $remarks = $remarks === $splitToolId3 ? null : $remarks;
+                // $splitToolId = explode('_', $toolId)[0];
+                // $hadAccess = $hadAccess === $splitToolId ? null : $hadAccess;
+                // $splitToolId2 = explode('_', $toolId)[0];
+                // $accessRemoved = $accessRemoved === $splitToolId2 ? null : $accessRemoved;
+                // $splitToolId3 = explode('_', $toolId)[0];
+                // $remarks = $remarks === $splitToolId3 ? null : $remarks;
         
                 $resignObj = new \App\Models\EmployeeResign();
                 $employeeAccessTool = [
@@ -161,7 +161,7 @@ class EmployeeResignController extends AdminController
                     'access_removed' => $accessRemoved,
                     'remarks' => $remarks,
                 ];
-        
+                
                 $resignObj->create($employeeAccessTool);
             });
         }
