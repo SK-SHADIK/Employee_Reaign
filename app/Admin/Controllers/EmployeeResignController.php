@@ -93,17 +93,31 @@ class EmployeeResignController extends AdminController
         $tools = \App\Models\EmployeeAccessTool::all();
         
         foreach ($tools as $tool) {
-            $form->text('employee_access_tool_id')->value($tool->id)->readonly();
-            $form->switch('had_access', __('Had access'));
-            $form->switch('access_removed', __('Access removed'));
-            $form->text('remarks', __('Remarks'));
+            $form->text('employee_access_tool_id_'.$tool->id)->value($tool->id)->readonly();
+            $form->switch('had_access_'.$tool->id, __('Had access'));
+            $form->switch('access_removed_'.$tool->id, __('Access removed'));
+            $form->text('remarks_'.$tool->id, __('Remarks'));
         
             $form->saving(function (Form $form) use ($tool) {
                 $employeeId = $form->input('employee_id');
                 $toolId = $tool->id;
-                $hadAccess = $form->input('had_access');
-                $accessRemoved = $form->input('access_removed');
-                $remarks = $form->input('remarks');
+                $hadAccess = $form->input('had_access_'.$toolId);
+                $accessRemoved = $form->input('access_removed_'.$toolId);
+                $remarks = $form->input('remarks_'.$toolId);
+
+                // $trimmedToolId = trim($toolId, '_');
+                // $hadAccess = $hadAccess === $trimmedToolId ? null : $hadAccess;
+                // $trimmedToolId2 = trim($toolId, '_');
+                // $accessRemoved = $accessRemoved === $trimmedToolId2 ? null : $accessRemoved;
+                // $trimmedToolId3 = trim($toolId, '_');
+                // $remarks = $remarks === $trimmedToolId3 ? null : $remarks;
+
+                $splitToolId = explode('_', $toolId)[0];
+                $hadAccess = $hadAccess === $splitToolId ? null : $hadAccess;
+                $splitToolId2 = explode('_', $toolId)[0];
+                $accessRemoved = $accessRemoved === $splitToolId2 ? null : $accessRemoved;
+                $splitToolId3 = explode('_', $toolId)[0];
+                $remarks = $remarks === $splitToolId3 ? null : $remarks;
         
                 $resignObj = new \App\Models\EmployeeResign();
                 $employeeAccessTool = [
