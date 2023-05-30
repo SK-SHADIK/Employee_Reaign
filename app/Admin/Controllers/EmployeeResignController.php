@@ -9,6 +9,7 @@ use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Show;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
 
 class EmployeeResignController extends AdminController
 {
@@ -39,7 +40,7 @@ class EmployeeResignController extends AdminController
         $grid->column('access_removed', __('Access removed'))->display(function ($value) {
             return $value ? '<span style="color: green; font-weight:900; ">Yes</span>' :
             '<span style="color: red; font-weight:900; ">No</span>';});
-        $grid->column('remarks', __('Remarks'));
+        $grid->column('remarks', __('Remarks'))->editable();
         $grid->column('cd', __('Cd'));
 
         $grid->model()->orderBy('id', 'desc');
@@ -91,32 +92,25 @@ class EmployeeResignController extends AdminController
         
         $tools = \App\Models\EmployeeAccessTool::all();
         
-        foreach ($tools as $tool) {
-            $form->text('employee_access_tool_id_'.$tool->id)->value($tool->id)->readonly();
-            $form->switch('had_access_'.$tool->id, __('Had access'));
-            $form->switch('access_removed_'.$tool->id, __('Access removed'));
-            $form->text('remarks_'.$tool->id, __('Remarks'));
+        foreach ($tools as $key=> $tool) {
+            // $form->text('employee_access_tool_id')->value($tool->id)->readonly();
+            $form->text('employee_access_tool')->value($tool->tool)->readonly();
+            $form->hidden('employee_access_tool_id')->value($tool->id);
+
+            $form->switch('had_access'. $key, __('Had access'));
+            $form->switch('access_removed'. $key, __('Access removed'));
+            $form->text('remarks'. $key, __('Remarks'));
+            $form->hidden('cb'.$key, __('Cb'))->value(auth()->user()->name);
+            $form->hidden('ub'.$key, __('Ub'))->value(auth()->user()->name);
         
-            $form->saving(function (Form $form) use ($tool) {
+            $form->saving(function (Form $form) use ($tool, $key) {
                 $employeeId = $form->input('employee_id');
                 $toolId = $tool->id;
-                $hadAccess = $form->input('had_access_'.$toolId);
-                $accessRemoved = $form->input('access_removed_'.$toolId);
-                $remarks = $form->input('remarks_'.$toolId);
-
-                // $trimmedToolId = trim($toolId, '_');
-                // $hadAccess = $hadAccess === $trimmedToolId ? null : $hadAccess;
-                // $trimmedToolId2 = trim($toolId, '_');
-                // $accessRemoved = $accessRemoved === $trimmedToolId2 ? null : $accessRemoved;
-                // $trimmedToolId3 = trim($toolId, '_');
-                // $remarks = $remarks === $trimmedToolId3 ? null : $remarks;
-
-                // $splitToolId = explode('_', $toolId)[0];
-                // $hadAccess = $hadAccess === $splitToolId ? null : $hadAccess;
-                // $splitToolId2 = explode('_', $toolId)[0];
-                // $accessRemoved = $accessRemoved === $splitToolId2 ? null : $accessRemoved;
-                // $splitToolId3 = explode('_', $toolId)[0];
-                // $remarks = $remarks === $splitToolId3 ? null : $remarks;
+                $hadAccess = $form->input('had_access'.$key);
+                $accessRemoved = $form->input('access_removed'.$key);
+                $remarks = $form->input('remarks'.$key);
+                $cb = $form->input('cb'.$key);
+                $ub = $form->input('ub'.$key);
         
                 $resignObj = new \App\Models\EmployeeResign();
                 $employeeAccessTool = [
@@ -125,18 +119,25 @@ class EmployeeResignController extends AdminController
                     'had_access' => $hadAccess,
                     'access_removed' => $accessRemoved,
                     'remarks' => $remarks,
+                    'cb' => $cb,
+                    'ub' => $ub,
                 ];
                 
                 $resignObj->create($employeeAccessTool);
             });
         }
-        
 
-        $form->hidden('cb', __('Cb'))->value(auth()->user()->name);
-        $form->hidden('ub', __('Ub'))->value(auth()->user()->name);
+        $form->saving(function (Form $form){
+            return Redirect::to('/admin/employee-resign');
+
+        });        
 
         return $form;
     }
     
-
+    // public function create(Content $content) {
+    //     return $content
+    //         ->title('Create')
+    //         ->view('resignForm');
+    // }
 }
