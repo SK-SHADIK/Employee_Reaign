@@ -8,8 +8,9 @@ use Encore\Admin\Layout\Content;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Show;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Database\Eloquent\Builder;
+
 
 class EmployeeResignController extends AdminController
 {
@@ -29,9 +30,9 @@ class EmployeeResignController extends AdminController
     {
         $grid = new Grid(new EmployeeResign());
 
-        $grid->column('id', __('Id'));
-        $grid->emptable()->emp_id('Employee_ID');
-        $grid->emptable()->emp_name('Employee_Name');
+        $grid->column('id', __('Id'))->sortable();
+        $grid->emptable()->emp_id('Employee ID')->sortable();
+        $grid->emptable()->emp_name('Employee Name');
         $grid->tool()->tool('Access Tool');
         $grid->column('had_access', __('Had access'))->display(function ($value) {
             return $value ? '<span style="color: green; font-weight:900; ">Yes</span>' :
@@ -41,7 +42,18 @@ class EmployeeResignController extends AdminController
             return $value ? '<span style="color: green; font-weight:900; ">Yes</span>' :
             '<span style="color: red; font-weight:900; ">No</span>';});
         $grid->column('remarks', __('Remarks'))->editable();
-        $grid->column('cd', __('Cd'));
+        $grid->column('cd', __('Cd'))->sortable();
+
+        $grid->quickSearch(function ($model, $query) {
+            $model->orWhereHas('employee', function (Builder $queryr) use ($query) {
+                $queryr->where('emp_id', 'like', "%{$query}%");
+            });
+            $model->orWhereHas('employee', function (Builder $queryr) use ($query) {
+                $queryr->where('emp_name', 'like', "%{$query}%");
+            });
+        })->placeholder('Search Here Employee id Or Name...');
+
+        $grid->disableFilter();
 
         $grid->model()->orderBy('id', 'desc');
 

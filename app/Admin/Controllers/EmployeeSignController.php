@@ -28,8 +28,8 @@ class EmployeeSignController extends AdminController
         $grid = new Grid(new EmployeeSign());
 
         $grid->column('id', __('Id'))->sortable();
-        $grid->emptable()->emp_id('Employee_ID')->sortable();
-        $grid->emptable()->emp_name('Employee_Name');
+        $grid->emptable()->emp_id('Employee ID')->sortable();
+        $grid->emptable()->emp_name('Employee Name');
         $grid->column('employee_sign', __('Employee sign'))->display(function ($value) {
             
             $decodeImage = "<img src='" . $value . "' alt='Employee Sign' style='height: 60px; width:120px;' />";
