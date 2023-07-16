@@ -1,5 +1,6 @@
 <?php
 
+use App\Admin\Controllers\ApprovalFormController;
 use Illuminate\Routing\Router;
 
 Admin::routes();
@@ -17,6 +18,9 @@ Route::group([
     Route::resource('employee-access-tool', EmployeeAccessToolController::class);
     Route::resource('employee-sign', EmployeeSignController::class);
     Route::resource('employee-resign', EmployeeResignController::class);
+
+    $router->get('/approval-form', 'ApprovalFormController@showApprovalForm')->name('home');
+
     // $router->get('create', [EmployeeResignController::class, 'create']);
 
 
