@@ -10,7 +10,7 @@ class EmployeeResign extends Model
     protected $table = "employee_resign";
     const CREATED_AT = 'cd';
     const UPDATED_AT = 'ud';
-    protected $fillable = ['employee_id', 'employee_access_tool_id', 'had_access', 'access_removed', 'remarks'];
+    protected $fillable = ['employee_id', 'employee_access_tool_id', 'had_access', 'access_removed', 'remarks', 'approval_status_id', 'resign_master_table_id',];
 
     public function emptable()
     {
@@ -25,4 +25,5 @@ class EmployeeResign extends Model
     {
         return $this->belongsTo(Employee::class, 'employee_id');
     }
+    
 }

@@ -7,5 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class ApprovalStatus extends Model
 {
-    use HasFactory;
+    protected $table = "approval_status";
+    const CREATED_AT = 'cd';
+    const UPDATED_AT = 'ud';
 }

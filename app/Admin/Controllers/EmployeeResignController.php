@@ -114,6 +114,7 @@ class EmployeeResignController extends AdminController
             $form->text('remarks'. $key, __('Remarks'));
             $form->hidden('cb'.$key, __('Cb'))->value(auth()->user()->name);
             $form->hidden('ub'.$key, __('Ub'))->value(auth()->user()->name);
+            // $form->hidden('approval_status_id', __('approval_status_id'))->default(1);
         
             $form->saving(function (Form $form) use ($tool, $key) {
                 $employeeId = $form->input('employee_id');
@@ -134,7 +135,25 @@ class EmployeeResignController extends AdminController
                     'cb' => $cb,
                     'ub' => $ub,
                 ];
+
+                $resignMaster = new \App\Models\ResignMasterTable();
+                $employeeResignMaster = [
+                    'employee_resign_id' => 1,
+                    'resign_master_table_id' => 1,
+                    'cb' => $cb,
+                    'ub' => $ub,
+                ];
+                $resignMaster->create($employeeResignMaster);
                 
+                $resignview = new \App\Models\ResignView();
+                $employeeResignView = [
+                    'approval_status_id' => 1,
+                    'resign_view_id' => 1,
+                    'cb' => $cb,
+                    'ub' => $ub,
+                ];
+                $resignview->create($employeeResignView);
+
                 $resignObj->create($employeeAccessTool);
             });
         }

@@ -18,6 +18,9 @@ Route::group([
     Route::resource('employee-access-tool', EmployeeAccessToolController::class);
     Route::resource('employee-sign', EmployeeSignController::class);
     Route::resource('employee-resign', EmployeeResignController::class);
+    Route::resource('approval-status', ApprovalStatusController::class);
+    Route::resource('resign-view', ResignViewController::class);
+    Route::resource('resign-master-table', ResignMasterTableController::class);
 
     $router->get('/approval-form', 'ApprovalFormController@showApprovalForm')->name('home');
 
