@@ -26,13 +26,19 @@ class EmployeeResignDetailsController extends AdminController
     {
         $grid = new Grid(new EmployeeResignDetails());
 
-        $grid->column('id', __('Id'));
-        $grid->column('resign_master_id', __('Resign master id'));
-        $grid->column('employee_id', __('Employee id'));
-        $grid->column('employee_access_tool_id', __('Employee access tool id'));
-        $grid->column('had_access', __('Had access'));
-        $grid->column('access_removed', __('Access removed'));
-        $grid->column('remarks', __('Remarks'));
+        $grid->column('id', __('Id'))->sortable();
+        // $grid->column('resign_master_id', __('Resign master id'));
+        $grid->emp()->emp_id('Employee ID')->sortable();
+        $grid->emp()->emp_name('Employee Name');
+        $grid->accesstool()->tool('Access Tools');
+        $grid->column('had_access', __('Had access'))->display(function ($value) {
+            return $value ? '<span style="color: green; font-weight:900; ">Yes</span>' :
+            '<span style="color: red; font-weight:900; ">No</span>';});
+
+        $grid->column('access_removed', __('Access removed'))->display(function ($value) {
+            return $value ? '<span style="color: green; font-weight:900; ">Yes</span>' :
+            '<span style="color: red; font-weight:900; ">No</span>';});
+        $grid->column('remarks', __('Remarks'))->editable();
         $grid->column('cd', __('Cd'))->sortable();
 
         $grid->model()->orderBy('id', 'desc');

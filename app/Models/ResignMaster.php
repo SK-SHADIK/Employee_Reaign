@@ -10,4 +10,22 @@ class ResignMaster extends Model
     protected $table = "resign_master";
     const CREATED_AT = 'cd';
     const UPDATED_AT = 'ud';
+
+    protected $fillable = [
+        'employee_id', 
+        'approval_status_id', 
+        'checked_by', 
+        'author_by'
+    ];
+
+    public function emp()
+    {
+        return $this->hasOne(Employee::class, 'id', 'employee_id');
+    }
+
+    public function approvalStatus()
+    {
+        return $this->hasOne(ApprovalStatus::class, 'id', 'approval_status_id');
+    }
+    
 }
