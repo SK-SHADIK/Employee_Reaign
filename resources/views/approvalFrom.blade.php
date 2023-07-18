@@ -192,21 +192,22 @@
                 <div class="em-details">
                     <div class="details">
                         <h3 class="title-name">Date</h3>
-                        <input type="text">
+                        <input type="text" value="{{ $resignMaster->cd }}">
                     </div>
                     <div class="details">
-                        <h3 class="title-name">Name</h3>
-                        <input type="text">
+                       <h3 class="title-name">Employee Name</h3>
+                       <input type="text" value="{{ $employeeName }}">
                     </div>
+
                     <div class="details">
                         <h3 class="title-name">EID</h3>
-                        <input type="text">
+                        <input type="text" value="{{ $employeeId }}">
                     </div>
                 </div>
                 <div class="em-details">
                     <div class="details">
                         <h3 class="title-name">Contact No</h3>
-                        <input type="text">
+                        <input type="text" value="{{ $employeeOffice .', ' . $employeePersonal }}">
                     </div>
                     <div class="details">
                         <h3 class="title-name">Address</h3>
@@ -218,7 +219,6 @@
                 <table class="table">
                     <thead>
                         <tr>
-                            <th>Sl No.</th>
                             <th>Tools Name</th>
                             <th>Had Access</th>
                             <th>Access Removed</th>
@@ -226,104 +226,14 @@
                         </tr>
                     </thead>
                     <tbody>
+                        @foreach ($resignMasters as $tools)
                         <tr>
-                            <td>01</td>
-                            <td>HIS</td>
-                            <td>Yes</td>
-                            <td>Yes</td>
-                            <td> </td>
+                            <td>{{ $tools->employeeAccessTool->tool }}</td>
+                            <td>{{ $tools->had_access ? 'Yes' : 'No' }}</td>
+                            <td>{{ $tools->access_removed ? 'Yes' : 'No' }}</td>
+                            <td>{{ $tools->remarks }}</td>
                         </tr>
-                        <tr>
-                            <td>02</td>
-                            <td>EPT</td>
-                            <td>Yes</td>
-                            <td>Yes</td>
-                            <td> </td>
-                        </tr>
-                        <tr>
-                            <td>03</td>
-                            <td>APPOINTMENT TOOL</td>
-                            <td>Yes</td>
-                            <td>Yes</td>
-                            <td> </td>
-                        </tr>
-                        <tr>
-                            <td>04</td>
-                            <td>EMAIL</td>
-                            <td>Yes</td>
-                            <td>Yes</td>
-                            <td>Checked By HR </td>
-                        </tr>
-                        <tr>
-                            <td>05</td>
-                            <td>LAPTOP / PC</td>
-                            <td>Yes</td>
-                            <td>Yes</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>06</td>
-                            <td>CHARGER</td>
-                            <td>Yes</td>
-                            <td>Yes</td>
-                            <td> </td>
-                        </tr>
-                        <tr>
-                            <td>07</td>
-                            <td>MOUSE</td>
-                            <td>Yes</td>
-                            <td>Yes</td>
-                            <td> </td>
-                        </tr>
-                        <tr>
-                            <td>08</td>
-                            <td>METABASE</td>
-                            <td>Yes</td>
-                            <td>Yes</td>
-                            <td> </td>
-                        </tr>
-                        <tr>
-                            <td>09</td>
-                            <td>CLOUD SERVER</td>
-                            <td>Yes</td>
-                            <td>Yes</td>
-                            <td> </td>
-                        </tr>
-                        <tr>
-                            <td>10</td>
-                            <td>CCTV CAMERA</td>
-                            <td>Yes</td>
-                            <td>Yes</td>
-                            <td> </td>
-                        </tr>
-                        <tr>
-                            <td>11</td>
-                            <td>ACCESS CARD / ATTENDENCE SYSTEM</td>
-                            <td>Yes</td>
-                            <td>Yes</td>
-                            <td> </td>
-                        </tr>
-                        <tr>
-                            <td>12</td>
-                            <td>VPN</td>
-                            <td>Yes</td>
-                            <td>Yes</td>
-                            <td> </td>
-                        </tr>
-                        <tr>
-                            <td>13</td>
-                            <td>Device MAC Authentication (ACL)</td>
-                            <td>Yes</td>
-                            <td>Yes</td>
-                            <td> </td>
-                        </tr>
-                        <tr>
-                            <td>14</td>
-                            <td>Call Center (CC)</td>
-                            <td>Yes</td>
-                            <td>Yes</td>
-                            <td> </td>
-                        </tr>
+                        @endforeach
                     </tbody>
                 </table>
             </div>

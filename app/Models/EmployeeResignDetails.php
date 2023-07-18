@@ -29,4 +29,12 @@ class EmployeeResignDetails extends Model
     {
         return $this->hasOne(EmployeeAccessTool::class, 'id', 'employee_access_tool_id');
     }
+    public function employeeAccessTool()
+    {
+        return $this->belongsTo(EmployeeAccessTool::class);
+    }
+    public function emps()
+    {
+        return $this->belongsTo(Employee::class);
+    }
 }

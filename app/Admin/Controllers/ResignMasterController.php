@@ -36,8 +36,11 @@ class ResignMasterController extends AdminController
         $grid->column('author_by', __('Author by'));
         $grid->column('cd', __('Cd'))->sortable();
         $grid->column('actions', __('Show Details'))->display(function () {
-            return '<a href="/admin/approval-form" class="btn" style="background-color: #8A2061; color: #fff;">Preview</a>';
+            $id = $this->id;
+            $url = '/admin/approval-form?id=' . $id;
+            return '<a href="' . $url . '" class="btn" style="background-color: #8A2061; color: #fff;">Preview</a>';
         });
+        
         
 
         $grid->model()->orderBy('id', 'desc');
