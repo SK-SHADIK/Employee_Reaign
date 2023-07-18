@@ -16,7 +16,7 @@ class EmployeeSignController extends AdminController
      *
      * @var string
      */
-    protected $title = 'EmployeeSign';
+    protected $title = 'Employee Sign';
 
     /**
      * Make a grid builder.
