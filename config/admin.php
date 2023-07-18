@@ -11,7 +11,8 @@ return [
     | login page.
     |
     */
-    'name' => 'Laravel-admin',
+    'name' => 'Welcome To Praava Health IT Check List for
+    Employee Clearance',
 
     /*
     |--------------------------------------------------------------------------
@@ -22,7 +23,7 @@ return [
     | `img` tag, eg '<img src="http://logo-url" alt="Admin logo">'.
     |
     */
-    'logo' => '<b>Laravel</b> admin',
+    'logo' => '<b>Employee</b> Clearance',
 
     /*
     |--------------------------------------------------------------------------
@@ -34,7 +35,7 @@ return [
     | '<img src="http://logo-url" alt="Admin logo">'.
     |
     */
-    'logo-mini' => '<b>La</b>',
+    'logo-mini' => '<b>PHEC</b>',
 
     /*
     |--------------------------------------------------------------------------
@@ -85,7 +86,7 @@ return [
     | Html title for all pages.
     |
     */
-    'title' => 'Admin',
+    'title' => 'PHEC',
 
     /*
     |--------------------------------------------------------------------------
@@ -275,7 +276,7 @@ return [
     |    "skin-red", "skin-red-light", "skin-black", "skin-black-light".
     |
     */
-    'skin' => env('ADMIN_SKIN', 'skin-blue-light'),
+    'skin' => env('ADMIN_SKIN', 'skin-black'),
 
     /*
     |--------------------------------------------------------------------------
