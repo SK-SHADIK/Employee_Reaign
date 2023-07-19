@@ -21,6 +21,7 @@ class ApprovalFormController extends AdminController
 
         $resignMaster = ResignMaster::find($resignMasterId);
         $rejectBy = $resignMaster ? $resignMaster->author_by : '';
+        
 
 
         if ($resignMasters->isEmpty()) {

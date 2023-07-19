@@ -15,14 +15,12 @@ class CreateEmployeeSignTable extends Migration
     {
         Schema::create('employee_sign', function (Blueprint $table) {
             $table->id();
-            $table->unsignedbiginteger('employee_id');
+            $table->integer('employee_id');
             $table->text('employee_sign');
             $table->string('cb', 255)->nullable();
             $table->timestamp('cd')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->string('ub', 255)->nullable();
             $table->timestamp('ud')->default(DB::raw('CURRENT_TIMESTAMP'));
-
-            $table->foreign('employee_id')->references('id')->on('employee');
         });
     }
 

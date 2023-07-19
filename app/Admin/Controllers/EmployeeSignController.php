@@ -28,26 +28,13 @@ class EmployeeSignController extends AdminController
         $grid = new Grid(new EmployeeSign());
 
         $grid->column('id', __('Id'))->sortable();
-        $grid->emptable()->emp_id('Employee ID')->sortable();
-        $grid->emptable()->emp_name('Employee Name');
+        $grid->column('employee_id', __('Employee Id'))->sortable();
         $grid->column('employee_sign', __('Employee sign'))->display(function ($value) {
             
             $decodeImage = "<img src='" . $value . "' alt='Employee Sign' style='height: 60px; width:120px;' />";
             return $decodeImage;
         });
         $grid->column('cd', __('Cd'))->sortable();
-
-        $grid->quickSearch(function ($model, $query) {
-            $model->orWhereHas('employee', function (Builder $queryr) use ($query) {
-                $queryr->where('emp_id', 'like', "%{$query}%");
-            });
-            $model->orWhereHas('employee', function (Builder $queryr) use ($query) {
-                $queryr->where('emp_name', 'like', "%{$query}%");
-            });
-        })->placeholder('Search Here Employee id Or Name...');
-
-        $grid->disableFilter();
-
 
         $grid->model()->orderBy('id', 'desc');
 
@@ -84,15 +71,8 @@ class EmployeeSignController extends AdminController
     {
         $form = new Form(new EmployeeSign());
 
-        
-        $Emp = \App\Models\Employee::all()->map(function ($emp) {
-            return [
-                'id' => $emp->id,
-                'label' => "{$emp->emp_id} - {$emp->emp_name}",
-            ];
-        })->pluck('label', 'id')->toArray();
-        $form->select('employee_id', __('Employee ID & Name'))->options($Emp);
 
+       $form->text('employee_id', 'Employee Id');
        $form->image('employee_sign', 'Image');
        
        $form->hidden('cb', __('Cb'))->value(auth()->user()->name);
