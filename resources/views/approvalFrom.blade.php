@@ -181,6 +181,7 @@
 </style>
 
 <body>
+    <a href="/admin/resign-master" class="btn btn-approve">Back</a>  
     <div class="container">
         <div class="employee-reaign">
             <div class="header">
@@ -207,11 +208,11 @@
                 <div class="em-details">
                     <div class="details">
                         <h3 class="title-name">Contact No</h3>
-                        <input readonly style="width: 240px;" value="{{ $employeeOffice .', ' . $employeePersonal }}">
+                        <input readonly style="width: 280px;" value="{{ $employeeOffice .', ' . $employeePersonal }}">
                     </div>
                     <div class="details">
                         <h3 class="title-name">Designation</h3>
-                        <input readonly style="width: 240px;" value="{{ $employeeDesignation }}">
+                        <input readonly style="width: 280px;" value="{{ $employeeDesignation }}">
                     </div>
                 </div>
             </div>

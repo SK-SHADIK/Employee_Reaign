@@ -9,6 +9,8 @@ use Encore\Admin\Grid;
 use Encore\Admin\Show;
 use Encore\Admin\Facades\Admin;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Database\Eloquent\Builder;
+
 
 class ResignMasterController extends AdminController
 {
@@ -41,9 +43,20 @@ class ResignMasterController extends AdminController
             return '<a href="' . $url . '" class="btn" style="background-color: #8A2061; color: #fff;">Preview</a>';
         });
         
-        
-
         $grid->model()->orderBy('id', 'desc');
+
+        $grid->quickSearch(function ($model, $query) {
+            $model->orWhereHas('employee', function (Builder $queryr) use ($query) {
+                $queryr->where('emp_id', 'like', "%{$query}%");
+            });
+            $model->orWhereHas('employee', function (Builder $queryr) use ($query) {
+                $queryr->where('emp_name', 'like', "%{$query}%");
+            });
+        })->placeholder('Search Here Employee id Or Name...');
+
+        $grid->disableFilter();
+
+        $grid->disableActions();
 
         return $grid;
     }
@@ -96,7 +109,7 @@ class ResignMasterController extends AdminController
         $form->hidden('cb', __('Cb'))->value(auth()->user()->name);
         $form->hidden('ub', __('Ub'))->value(auth()->user()->name);
 
-        $tools = \App\Models\EmployeeAccessTool::all();
+        $tools = \App\Models\EmployeeAccessTool::where('status', true)->get();
         
         foreach ($tools as $key=> $tool) {
             // $form->text('employee_access_tool_id')->value($tool->id)->readonly();

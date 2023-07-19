@@ -7,6 +7,8 @@ use Encore\Admin\Controllers\AdminController;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Show;
+use Illuminate\Database\Eloquent\Builder;
+
 
 class EmployeeResignDetailsController extends AdminController
 {
@@ -42,6 +44,20 @@ class EmployeeResignDetailsController extends AdminController
         $grid->column('cd', __('Cd'))->sortable();
 
         $grid->model()->orderBy('id', 'desc');
+
+        $grid->quickSearch(function ($model, $query) {
+            $model->orWhereHas('employee', function (Builder $queryr) use ($query) {
+                $queryr->where('emp_id', 'like', "%{$query}%");
+            });
+            $model->orWhereHas('employee', function (Builder $queryr) use ($query) {
+                $queryr->where('emp_name', 'like', "%{$query}%");
+            });
+        })->placeholder('Search Here Employee id Or Name...');
+
+        $grid->disableFilter();
+
+        $grid->disableCreateButton();
+        $grid->disableActions();
 
         return $grid;
     }

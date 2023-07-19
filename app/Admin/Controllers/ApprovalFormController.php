@@ -4,6 +4,7 @@ namespace App\Admin\Controllers;
 
 use App\Models\EmployeeResignDetails;
 use App\Models\ResignMaster;
+use App\Models\EmployeeSign;
 use App\Models\Employee;
 use Encore\Admin\Controllers\AdminController;
 use Encore\Admin\Facades\Admin;
@@ -16,13 +17,15 @@ class ApprovalFormController extends AdminController
 {
     protected function showApprovalForm()
     {
+
         $resignMasterId = request('id');
         $resignMasters = EmployeeResignDetails::where('resign_master_id', $resignMasterId)->with('employeeAccessTool')->get();
 
         $resignMaster = ResignMaster::find($resignMasterId);
-        $rejectBy = $resignMaster ? $resignMaster->author_by : '';
-        
+        $authorBy = $resignMaster ? $resignMaster->author_by : '';
+        $checkedBy = $resignMaster ? $resignMaster->checked_by : '';
 
+        
 
         if ($resignMasters->isEmpty()) {
             return Redirect::back()->with('error', 'Invalid ID');
@@ -39,9 +42,16 @@ class ApprovalFormController extends AdminController
         if ($resignMaster->approval_status_id == 1) {
             return view('approvalFrom', compact('resignMasterId', 'resignMasters', 'resignMaster', 'employeeName', 'employeeId', 'employeeOffice', 'employeePersonal', 'employeeDesignation'));
         } elseif ($resignMaster->approval_status_id == 2){
-            return view('approved-form', compact('resignMasterId', 'resignMasters', 'resignMaster', 'employeeName', 'employeeId', 'employeeOffice', 'employeePersonal', 'employeeDesignation'));
+
+            $employeeSign = EmployeeSign::where('employee_id', $checkedBy)->first();
+            $checkedBySign = $employeeSign ? $employeeSign->employee_sign : '';
+            
+            $employeeSign = EmployeeSign::where('employee_id', $authorBy)->first();
+            $authorBySign = $employeeSign ? $employeeSign->employee_sign : '';
+
+            return view('approved-form', compact('resignMasterId', 'resignMasters', 'resignMaster', 'employeeName', 'employeeId', 'employeeOffice', 'employeePersonal', 'employeeDesignation', 'checkedBySign', 'authorBySign'));
         } elseif ($resignMaster->approval_status_id == 3){
-            return view('reject-form', compact('resignMasterId', 'resignMasters', 'resignMaster', 'employeeName', 'employeeId', 'employeeOffice', 'employeePersonal', 'employeeDesignation', 'rejectBy'));
+            return view('reject-form', compact('resignMasterId', 'resignMasters', 'resignMaster', 'employeeName', 'employeeId', 'employeeOffice', 'employeePersonal', 'employeeDesignation', 'authorBy'));
         }
     }
 
@@ -52,7 +62,7 @@ class ApprovalFormController extends AdminController
 
         if ($loggedInUser) {
             $newApprovalStatusID = 2;
-            $authorBy = $loggedInUser->name;
+            $authorBy = $loggedInUser->username;
     
             ResignMaster::where('id', $resignMasterID)
                 ->update(['approval_status_id' => $newApprovalStatusID, 'author_by' => $authorBy]);
@@ -70,7 +80,7 @@ class ApprovalFormController extends AdminController
 
         if ($loggedInUser) {
             $newApprovalStatusID = 3;
-            $authorBy = $loggedInUser->name;
+            $authorBy = $loggedInUser->username;
     
             ResignMaster::where('id', $resignMasterID)
                 ->update(['approval_status_id' => $newApprovalStatusID, 'author_by' => $authorBy]);

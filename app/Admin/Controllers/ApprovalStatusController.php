@@ -32,6 +32,10 @@ class ApprovalStatusController extends AdminController
 
         $grid->model()->orderBy('id', 'desc');
 
+        $grid->filter(function ($filter) {
+            $filter->like('status', __('Approval Status'));
+        });
+
         return $grid;
     }
 

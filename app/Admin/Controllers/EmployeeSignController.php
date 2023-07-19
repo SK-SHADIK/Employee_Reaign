@@ -38,6 +38,10 @@ class EmployeeSignController extends AdminController
 
         $grid->model()->orderBy('id', 'desc');
 
+        $grid->filter(function ($filter) {
+            $filter->like('employee_id', __('Employee Id'));
+        });
+
         return $grid;
     }
 
