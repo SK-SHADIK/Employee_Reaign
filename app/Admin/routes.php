@@ -20,7 +20,15 @@ Route::group([
     Route::resource('resign-master', ResignMasterController::class);
     Route::resource('employee-resign-details', EmployeeResignDetailsController::class);
 
-    $router->get('/approval-form', 'ApprovalFormController@showApprovalForm')->name('home');
+    $router->get('/approval-form', 'ApprovalFormController@showApprovalForm');
+    $router->get('/approved-form', 'ApprovalFormController@showApprovalForm');
+    $router->get('/reject-form', 'ApprovalFormController@showApprovalForm');
+    Route::post('/update-approval-status', 'ApprovalFormController@approvalForm');
+    Route::post('/update-reject-status', 'ApprovalFormController@rejectForm');
+
+
+
+
 
     // $router->get('create', [EmployeeResignController::class, 'create']);
 

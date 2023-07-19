@@ -50,7 +50,7 @@
         background: #8a2061;
         color: #fff;
         padding: 8px;
-        border-radius: 0px;
+        border-radius: 10px;
         margin-top: 5px;
     }
 
@@ -106,7 +106,7 @@
     .table td,
     .table th {
         border: 1px solid #ddd;
-        padding: 8px;
+        padding: 5px;
         font-size: 14px;
     }
 
@@ -149,13 +149,8 @@
 
     .signature-list{
         display: flex;
+        justify-content: space-between;
     }
-
-    .btn-group {
-  justify-content: center;
-  display: flex;
-  padding: 35px;
-}
 
     .btn.btn-approve {
   background: green;
@@ -173,10 +168,11 @@
   .signature-section {
     margin: 10px;
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
     align-items: center;
     width: 1212px !IMPORTANT;
     margin: auto;
+    padding-top: 20px;
 }
 </style>
 
@@ -239,20 +235,18 @@
                     </tbody>
                 </table>
             </div>
-            <div class="btn-group">
-                <form action="/admin/update-approval-status" method="post">
-                  @csrf
-                  <input type="hidden" name="id" value="{{ $resignMasterId }}">
-                  <button type="submit" class="btn btn-approve">Approve</button>
-                </form>
-
-                <form action="/admin/update-reject-status" method="post">
-                  @csrf
-                  <input type="hidden" name="id" value="{{ $resignMasterId }}">
-                  <button type="submit" class="btn btn-reject">Reject</button>
-                </form>
+            <div class="signature-section">
+                    <h4 style="color: red;">This application was rejected by <span style="color: #000;">{{ $rejectBy }}</span></h4>
+                    <form action="/admin/update-approval-status" method="post">
+                      @csrf
+                      <h4>Approved Now: </h4>
+                      <input type="hidden" name="id" value="{{ $resignMasterId }}">
+                      <button type="submit" class="btn btn-approve">Approve</button>
+                    </form>
             </div>
         </div>
     </div>
+
 </body>
+
 </html>
