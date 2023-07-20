@@ -158,7 +158,7 @@ class ResignMasterController extends AdminController
             $resignMaster->ub = $form->input('ub');
             $resignMaster->save();
         
-            $tools = \App\Models\EmployeeAccessTool::all();
+            $tools = \App\Models\EmployeeAccessTool::where('status', true)->get();
         
             foreach ($tools as $key => $tool) {
                 $employeeId = $form->input('employee_id');
