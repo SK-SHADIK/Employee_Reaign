@@ -54,7 +54,32 @@ class ResignMasterController extends AdminController
             });
         })->placeholder('Search Here Employee id Or Name...');
 
-        $grid->disableFilter();
+        
+        $grid->filter(function ($filter) {
+            $filter->where(function ($query) {
+                switch ($this->input) {
+                    case '1':
+                        $query->where('approval_status_id', '=', 1);
+                        break;
+                    case '2':
+                        $query->where('approval_status_id', '=', 2);
+                        break;
+                    case '3':
+                        $query->where('approval_status_id', '=', 3);
+                        break;
+                    case 'none':
+                        $query->where('approval_status_id', '=', null);
+                        break;
+                }
+            }, 'Approval Status', 'approval_status_filter')->radio([
+                '' => 'All',
+                '1' => 'Pending',
+                '2' => 'Approved',
+                '3' => 'Rejected',
+                'none' => 'None',
+            ]);
+        
+        });
 
         $grid->disableActions();
 
