@@ -115,7 +115,6 @@ class ResignMasterController extends AdminController
             // $form->text('employee_access_tool_id')->value($tool->id)->readonly();
             $form->text('employee_access_tool')->value($tool->tool)->readonly();
             $form->hidden('employee_access_tool_id')->value($tool->id);
-
             $form->switch('had_access'. $key, __('Had access'));
             $form->switch('access_removed'. $key, __('Access removed'));
             $form->text('remarks'. $key, __('Remarks'));
