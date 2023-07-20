@@ -35,7 +35,7 @@ class ResignMasterController extends AdminController
         $grid->emp()->emp_name('Employee Name');
         $grid->approvalStatus()->status('Approval Status');
         $grid->column('checked_by', __('Checked by'));
-        $grid->column('author_by', __('Author by'));
+        $grid->column('author_by', __('Authorized by'));
         $grid->column('cd', __('Cd'))->sortable();
         $grid->column('actions', __('Show Details'))->display(function () {
             $id = $this->id;
@@ -99,7 +99,7 @@ class ResignMasterController extends AdminController
         $show->field('employee_id', __('Employee id'));
         $show->field('approval_status_id', __('Approval status id'));
         $show->field('checked_by', __('Checked by'));
-        $show->field('author_by', __('Author by'));
+        $show->field('author_by', __('Authorized by'));
         $show->field('cb', __('Cb'));
         $show->field('cd', __('Cd'));
         $show->field('ub', __('Ub'));
@@ -129,7 +129,7 @@ class ResignMasterController extends AdminController
 
         $form->hidden('approval_status_id', __('Approval status id'))->default(1);
         $form->hidden('checked_by', __('Checked by'))->value(auth()->user()->username);
-        $form->hidden('author_by', __('Author by'));
+        $form->hidden('author_by', __('Authorized by'));
         $form->hidden('cb', __('Cb'))->value(auth()->user()->name);
         $form->hidden('ub', __('Ub'))->value(auth()->user()->name);
 
