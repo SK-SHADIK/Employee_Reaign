@@ -112,8 +112,8 @@ class EmployeeResignController extends AdminController
             $form->switch('had_access'. $key, __('Had access'));
             $form->switch('access_removed'. $key, __('Access removed'));
             $form->text('remarks'. $key, __('Remarks'));
-            $form->hidden('cb'.$key, __('Cb'))->value(auth()->user()->name);
-            $form->hidden('ub'.$key, __('Ub'))->value(auth()->user()->name);
+            $form->hidden('cb'.$key, __('Cb'))->value(auth()->user()->username);
+            $form->hidden('ub'.$key, __('Ub'))->value(auth()->user()->username);
             // $form->hidden('approval_status_id', __('approval_status_id'))->default(1);
         
             $form->saving(function (Form $form) use ($tool, $key) {

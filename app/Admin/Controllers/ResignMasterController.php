@@ -54,7 +54,32 @@ class ResignMasterController extends AdminController
             });
         })->placeholder('Search Here Employee id Or Name...');
 
-        $grid->disableFilter();
+        
+        $grid->filter(function ($filter) {
+            $filter->where(function ($query) {
+                switch ($this->input) {
+                    case '1':
+                        $query->where('approval_status_id', '=', 1);
+                        break;
+                    case '2':
+                        $query->where('approval_status_id', '=', 2);
+                        break;
+                    case '3':
+                        $query->where('approval_status_id', '=', 3);
+                        break;
+                    case 'none':
+                        $query->where('approval_status_id', '=', null);
+                        break;
+                }
+            }, 'Approval Status', 'approval_status_filter')->radio([
+                '' => 'All',
+                '1' => 'Pending',
+                '2' => 'Approved',
+                '3' => 'Rejected',
+                'none' => 'None',
+            ]);
+        
+        });
 
         $grid->disableActions();
 
@@ -104,7 +129,7 @@ class ResignMasterController extends AdminController
         $form->select('employee_id', __('Employee ID & Name'))->options($Employee);
 
         $form->hidden('approval_status_id', __('Approval status id'))->default(1);
-        $form->hidden('checked_by', __('Checked by'))->value(auth()->user()->name);
+        $form->hidden('checked_by', __('Checked by'))->value(auth()->user()->username);
         $form->hidden('author_by', __('Author by'));
         $form->hidden('cb', __('Cb'))->value(auth()->user()->name);
         $form->hidden('ub', __('Ub'))->value(auth()->user()->name);
@@ -133,7 +158,7 @@ class ResignMasterController extends AdminController
             $resignMaster->ub = $form->input('ub');
             $resignMaster->save();
         
-            $tools = \App\Models\EmployeeAccessTool::all();
+            $tools = \App\Models\EmployeeAccessTool::where('status', true)->get();
         
             foreach ($tools as $key => $tool) {
                 $employeeId = $form->input('employee_id');

@@ -75,8 +75,8 @@ class EmployeeSignController extends AdminController
        $form->text('employee_id', 'Employee Id');
        $form->image('employee_sign', 'Image');
        
-       $form->hidden('cb', __('Cb'))->value(auth()->user()->name);
-       $form->hidden('ub', __('Ub'))->value(auth()->user()->name);
+       $form->hidden('cb', __('Cb'))->value(auth()->user()->username);
+       $form->hidden('ub', __('Ub'))->value(auth()->user()->username);
 
        $form->saved(function (Form $form) {
             $id=$form->model()->id;
