@@ -129,7 +129,7 @@ class ResignMasterController extends AdminController
         $form->select('employee_id', __('Employee ID & Name'))->options($Employee);
 
         $form->hidden('approval_status_id', __('Approval status id'))->default(1);
-        $form->hidden('checked_by', __('Checked by'))->value(auth()->user()->name);
+        $form->hidden('checked_by', __('Checked by'))->value(auth()->user()->username);
         $form->hidden('author_by', __('Author by'));
         $form->hidden('cb', __('Cb'))->value(auth()->user()->name);
         $form->hidden('ub', __('Ub'))->value(auth()->user()->name);
