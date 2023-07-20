@@ -19,6 +19,7 @@ class CreateResignMasterTable extends Migration
             $table->unsignedbiginteger('approval_status_id');
             $table->string('checked_by', 255)->nullable();
             $table->string('author_by', 255)->nullable();
+            $table->string('rejected_reason', 255)->nullable();
             $table->string('cb', 255)->nullable();
             $table->timestamp('cd')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->string('ub', 255)->nullable();

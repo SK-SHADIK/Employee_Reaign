@@ -14,15 +14,6 @@
         font-family: Arial, Helvetica, sans-serif;
     }
 
-    /*
-    .container{
-       width: 75vw !important; 
-        flex-direction: row;
-        justify-content: center;
-    }
-    */
-    display: flex;
-
     .employee-reaign {
         margin-top: 2px;
     }

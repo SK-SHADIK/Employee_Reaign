@@ -13,16 +13,6 @@
     body {
         font-family: Arial, Helvetica, sans-serif;
     }
-
-    /*
-    .container{
-       width: 75vw !important; 
-        flex-direction: row;
-        justify-content: center;
-    }
-    */
-    display: flex;
-
     .employee-reaign {
         margin-top: 2px;
     }
@@ -178,6 +168,45 @@
     width: 1212px !IMPORTANT;
     margin: auto;
 }
+/* Styles for the popup container */
+.popup {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  z-index: 9999;
+}
+
+/* Styles for the popup content */
+.popup-content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+/* Styles for the buttons inside the popup */
+.popup-content button {
+  margin: 5px;
+}
+
+.btn-reject {
+  background-color: red;
+  color: white;
+}
+
+.btn-cancel {
+  background-color: #ccc;
+  color: black;
+}
+
 </style>
 
 <body>
@@ -247,13 +276,58 @@
                   <button type="submit" class="btn btn-approve">Approve</button>
                 </form>
 
-                <form action="/admin/update-reject-status" method="post">
-                  @csrf
-                  <input type="hidden" name="id" value="{{ $resignMasterId }}">
-                  <button type="submit" class="btn btn-reject">Reject</button>
-                </form>
+                
+                  <button class="btn btn-rejected">Reject</button>
+                <!-- Modal -->
+                <div id="popup" class="popup">
+                  <div class="popup-content">
+                    <h2>Confirmation</h2>
+                        <form action="/admin/update-reject-status" method="post">
+                          @csrf
+                          <input type="hidden" name="id" value="{{ $resignMasterId }}">
+                            <input class=>
+                            <button type="submit" id="confirmReject" class="btn btn-reject">Yes, Reject</button>
+                            <button id="cancelReject" class="btn btn-cancel">Cancel</button>
+                        </form>
+                  </div>
+                </div>
+
             </div>
         </div>
     </div>
 </body>
 </html>
+<script>
+  // Get the popup and buttons elements
+  const popup = document.getElementById("popup");
+  const confirmRejectBtn = document.getElementById("confirmReject");
+  const cancelRejectBtn = document.getElementById("cancelReject");
+
+  // Function to display the popup
+  function showPopup() {
+    popup.style.display = "block";
+  }
+
+  // Function to hide the popup
+  function hidePopup() {
+    popup.style.display = "none";
+  }
+
+  // Attach event listener to the Reject button to show the popup
+  const rejectBtn = document.querySelector(".btn-rejected");
+  rejectBtn.addEventListener("click", showPopup);
+
+  // Attach event listener to the Cancel button to hide the popup
+  cancelRejectBtn.addEventListener("click", hidePopup);
+
+  // You can also handle the form submission here if needed
+  confirmRejectBtn.addEventListener("click", function () {
+    // Handle form submission, e.g., submit the form via AJAX or direct form submission
+    // You can use JavaScript to submit the form or use any JavaScript framework like Axios or jQuery.
+    // For example, you can use the following code to submit the form:
+    // document.querySelector("form").submit();
+
+    // After handling the form submission, hide the popup
+    hidePopup();
+  });
+</script>
