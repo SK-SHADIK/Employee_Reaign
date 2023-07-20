@@ -31,9 +31,5 @@ class ResignMaster extends Model
     {
         return $this->belongsTo(Employee::class, 'employee_id');
     }
-    public function as()
-    {
-        return $this->belongsTo(ApprovalStatus::class, 'approval_status_id');
-    }
     
 }
