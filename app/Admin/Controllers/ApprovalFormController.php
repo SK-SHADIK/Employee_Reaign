@@ -80,14 +80,13 @@ class ApprovalFormController extends AdminController
 
         if ($loggedInUser) {
             $newApprovalStatusID = 3;
-            $authorBy = $loggedInUser->username;
+            $authorBy = $loggedInUser->name. ' (' . $loggedInUser->username . ')';
     
             ResignMaster::where('id', $resignMasterID)
                 ->update(['approval_status_id' => $newApprovalStatusID, 'author_by' => $authorBy]);
     
             return redirect()->back()->with('success', 'Approval status updated successfully');
         } else {
-            // Handle the case when no user is logged in
             return redirect()->back()->with('error', 'User not logged in');
         }
     }

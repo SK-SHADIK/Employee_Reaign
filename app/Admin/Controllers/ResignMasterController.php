@@ -54,7 +54,6 @@ class ResignMasterController extends AdminController
             });
         })->placeholder('Search Here Employee id Or Name...');
 
-        
         $grid->filter(function ($filter) {
             $filter->where(function ($query) {
                 switch ($this->input) {
@@ -137,7 +136,6 @@ class ResignMasterController extends AdminController
         $tools = \App\Models\EmployeeAccessTool::where('status', true)->get();
         
         foreach ($tools as $key=> $tool) {
-            // $form->text('employee_access_tool_id')->value($tool->id)->readonly();
             $form->text('employee_access_tool')->value($tool->tool)->readonly();
             $form->hidden('employee_access_tool_id')->value($tool->id);
             $form->switch('had_access'. $key, __('Had access'));
@@ -149,7 +147,6 @@ class ResignMasterController extends AdminController
         $form->saving(function (Form $form) {
             $resignMaster = new \App\Models\ResignMaster();
         
-            // Save data in resign_master table
             $resignMaster->employee_id = $form->input('employee_id');
             $resignMaster->approval_status_id = $form->input('approval_status_id');
             $resignMaster->checked_by = $form->input('checked_by');
