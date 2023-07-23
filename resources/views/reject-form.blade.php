@@ -29,7 +29,6 @@
                        <h3 class="title-name">Employee Name</h3>
                        <input readonly value="{{ $employeeName }}">
                     </div>
-
                     <div class="details">
                         <h3 class="title-name">EID</h3>
                         <input readonly value="{{ $employeeId }}">
@@ -71,13 +70,13 @@
                 </table>
             </div>
             <div class="signature-section">
-                    <h4 style="color: red;">This application was rejected by <span style="color: #000;">{{ $authorBy }}</span><br><br><br>Reason: <span style="color: #000;">{{ $rejectedReason }}</span></h4>
-                    <form action="/admin/update-approval-status" method="post">
-                      @csrf
-                      <h4>Approved Now: </h4>
-                      <input type="hidden" name="id" value="{{ $resignMasterId }}">
-                      <button type="submit" class="btn btn-approve">Approve</button>
-                    </form>
+                <h4 style="color: red;">This application was rejected by <span style="color: #000;">{{ $authorBy }}</span><br><br><br>Reason: <span style="color: #000;">{{ $rejectedReason }}</span></h4>
+                <form action="/admin/update-approval-status" method="post">
+                  @csrf
+                  <h4>Approved Now: </h4>
+                  <input type="hidden" name="id" value="{{ $resignMasterId }}">
+                  <button type="submit" class="btn btn-approve">Approve</button>
+                </form>
             </div>
         </div>
     </div>

@@ -29,7 +29,6 @@
                        <h3 class="title-name">Employee Name</h3>
                        <input readonly value="{{ $employeeName }}">
                     </div>
-
                     <div class="details">
                         <h3 class="title-name">EID</h3>
                         <input readonly value="{{ $employeeId }}">
@@ -71,18 +70,18 @@
                 </table>
             </div>
             <div class="signature-section">
-                    <div class="signature">
-                        @if ($checkedBySign)
-                            <img src="{{ $checkedBySign }}" alt="Employee Sign">
-                        @endif
-                        <h3 class="signature-by">Received/Checked by</h3>
-                    </div>
-                    <div class="signature">
-                        @if ($authorBySign)
-                            <img src="{{ $authorBySign }}" alt="Employee Sign">
-                        @endif
-                        <h3 class="signature-by">Authorized by</h3>
-                    </div>   
+                <div class="signature">
+                    @if ($checkedBySign)
+                        <img src="{{ $checkedBySign }}" alt="Employee Sign">
+                    @endif
+                    <h3 class="signature-by">Received/Checked by</h3>
+                </div>
+                <div class="signature">
+                    @if ($authorBySign)
+                        <img src="{{ $authorBySign }}" alt="Employee Sign">
+                    @endif
+                    <h3 class="signature-by">Authorized by</h3>
+                </div>   
             </div>
         </div>
     </div>

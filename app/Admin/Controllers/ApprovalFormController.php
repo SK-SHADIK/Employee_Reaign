@@ -17,7 +17,6 @@ class ApprovalFormController extends AdminController
 {
     protected function showApprovalForm()
     {
-
         $resignMasterId = request('id');
         $resignMasters = EmployeeResignDetails::where('resign_master_id', $resignMasterId)->with('employeeAccessTool')->get();
 
@@ -25,8 +24,6 @@ class ApprovalFormController extends AdminController
         $authorBy = $resignMaster ? $resignMaster->author_by : '';
         $checkedBy = $resignMaster ? $resignMaster->checked_by : '';
         $rejectedReason = $resignMaster ? $resignMaster->rejected_reason : '';
-
-        
 
         if ($resignMasters->isEmpty()) {
             return Redirect::back()->with('error', 'Invalid ID');
@@ -70,7 +67,6 @@ class ApprovalFormController extends AdminController
     
             return redirect('/admin/approved-form')->with('success', 'Approval status updated successfully');
         } else {
-            // Handle the case when no user is logged in
             return redirect()->back()->with('error', 'User not logged in');
         }
     }
@@ -81,17 +77,17 @@ class ApprovalFormController extends AdminController
         ]);
         $resignMasterID = $request->input('id');
         $rejectedReason = $request->input('rejected_reason');
-        $loggedInUser = Auth::user();    
+        $loggedInUser = Auth::user();
 
         if ($loggedInUser) {
             $newApprovalStatusID = 3;
-            $authorBy = $loggedInUser->name. ' (' . $loggedInUser->username . ')';    
+            $authorBy = $loggedInUser->name. ' (' . $loggedInUser->username . ')';
 
             ResignMaster::where('id', $resignMasterID)
                 ->update([
                     'approval_status_id' => $newApprovalStatusID,
                     'author_by' => $authorBy,
-                    'rejected_reason' => $rejectedReason, 
+                    'rejected_reason' => $rejectedReason,
                 ]);    
 
             return redirect()->back()->with('success', 'Approval status updated successfully');

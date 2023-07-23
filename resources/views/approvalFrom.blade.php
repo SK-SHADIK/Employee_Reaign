@@ -8,7 +8,6 @@
     <title>Employee Reaign</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
     <link rel="stylesheet" href="{{asset('css/common.css')}}">
-
 </head>
 
 <body>
@@ -76,10 +75,9 @@
                   @csrf
                   <input type="hidden" name="id" value="{{ $resignMasterId }}">
                   <button type="submit" class="btn btn-approve">Approve</button>
-                </form>
+                </form> 
+                <button class="btn btn-rejected">Reject</button>
 
-                
-                  <button class="btn btn-rejected">Reject</button>
                 <!-- Modal -->
                 <div id="popup" class="popup">
                   <div class="popup-content">
@@ -96,39 +94,30 @@
                         </form>
                   </div>
                 </div>
-
             </div>
         </div>
     </div>
 </body>
 </html>
 <script>
-  // Get the popup and buttons elements
   const popup = document.getElementById("popup");
   const confirmRejectBtn = document.getElementById("confirmReject");
   const cancelRejectBtn = document.getElementById("cancelReject");
 
-  // Function to display the popup
   function showPopup() {
     popup.style.display = "block";
   }
 
-  // Function to hide the popup
   function hidePopup() {
     popup.style.display = "none";
   }
 
-  // Attach event listener to the Reject button to show the popup
   const rejectBtn = document.querySelector(".btn-rejected");
   rejectBtn.addEventListener("click", showPopup);
 
-  // Attach event listener to the Cancel button to hide the popup
   cancelRejectBtn.addEventListener("click", hidePopup);
 
-  // You can also handle the form submission here if needed
   confirmRejectBtn.addEventListener("click", function () {
-
-    // After handling the form submission, hide the popup
     hidePopup();
   });
 </script>
