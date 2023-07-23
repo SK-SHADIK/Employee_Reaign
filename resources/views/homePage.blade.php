@@ -28,12 +28,14 @@
         background-color: #8A2061;
         border: 3px solid #8A2061;
         border-radius: 10px;
+        cursor: pointer;
     }
     .btn-info, .btn-primary:hover{
         background-color: #fff;
         color: #8A2061;
         border: 3px solid #8A2061;
         border-radius: 5px;
+        cursor: pointer;
     }
 </style>
 <body>
