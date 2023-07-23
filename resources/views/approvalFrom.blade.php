@@ -38,7 +38,7 @@
                 <div class="em-details">
                     <div class="details">
                         <h3 class="title-name">Contact No</h3>
-                        <input readonly style="width: 280px;" value="{{ $employeeOffice .', ' . $employeePersonal }}">
+                        <input readonly style="width: 280px;" value="{{ $mergedNumbers }}">
                     </div>
                     <div class="details">
                         <h3 class="title-name">Designation</h3>

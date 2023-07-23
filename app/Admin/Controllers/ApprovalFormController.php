@@ -33,12 +33,23 @@ class ApprovalFormController extends AdminController
 
         $employeeName = $employee ? $employee->emp_name : '';
         $employeeId = $employee ? $employee->emp_id : '';
-        $employeeOffice = $employee ? $employee->phone_office : '';
+        $employeeOffice = $employee ? preg_replace('/\s+/', '', $employee->phone_office) : '';
         $employeePersonal = $employee ? $employee->phone_personal : '';
+        $mergedNumbers = '';
+        
+        if (!empty($employeeOffice)) {
+            $mergedNumbers .= $employeeOffice;
+        }
+        
+        if (!empty($employeePersonal)) {
+            if (empty($mergedNumbers)) {
+                $mergedNumbers .= $employeePersonal;
+            }
+        }
         $employeeDesignation = $employee ? $employee->designation : '';
         
         if ($resignMaster->approval_status_id == 1) {
-            return view('approvalFrom', compact('resignMasterId', 'resignMasters', 'resignMaster', 'employeeName', 'employeeId', 'employeeOffice', 'employeePersonal', 'employeeDesignation'));
+            return view('approvalFrom', compact('resignMasterId', 'resignMasters', 'resignMaster', 'employeeName', 'employeeId', 'mergedNumbers', 'employeeDesignation'));
         } elseif ($resignMaster->approval_status_id == 2){
 
             $employeeSign = EmployeeSign::where('employee_id', $checkedBy)->first();
@@ -47,9 +58,9 @@ class ApprovalFormController extends AdminController
             $employeeSign = EmployeeSign::where('employee_id', $authorBy)->first();
             $authorBySign = $employeeSign ? $employeeSign->employee_sign : '';
 
-            return view('approved-form', compact('resignMasterId', 'resignMasters', 'resignMaster', 'employeeName', 'employeeId', 'employeeOffice', 'employeePersonal', 'employeeDesignation', 'checkedBySign', 'authorBySign'));
+            return view('approved-form', compact('resignMasterId', 'resignMasters', 'resignMaster', 'employeeName', 'employeeId', 'mergedNumbers', 'employeeDesignation', 'checkedBySign', 'authorBySign'));
         } elseif ($resignMaster->approval_status_id == 3){
-            return view('reject-form', compact('resignMasterId', 'resignMasters', 'resignMaster', 'employeeName', 'employeeId', 'employeeOffice', 'employeePersonal', 'employeeDesignation', 'authorBy', 'rejectedReason'));
+            return view('reject-form', compact('resignMasterId', 'resignMasters', 'resignMaster', 'employeeName', 'employeeId', 'mergedNumbers', 'employeeDesignation', 'authorBy', 'rejectedReason'));
         }
     }
 
