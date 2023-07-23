@@ -37,7 +37,7 @@
                 <div class="em-details">
                     <div class="details">
                         <h3 class="title-name">Contact No</h3>
-                        <input readonly style="width: 280px;" value="{{ $employeeOffice .', ' . $employeePersonal }}">
+                        <input readonly style="width: 280px;" value="{{ $mergedNumbers }}">
                     </div>
                     <div class="details">
                         <h3 class="title-name">Designation</h3>
@@ -73,7 +73,7 @@
                 <h4 style="color: red;">This application was rejected by <span style="color: #000;">{{ $authorBy }}</span><br><br><br>Reason: <span style="color: #000;">{{ $rejectedReason }}</span></h4>
                 <form action="/admin/update-approval-status" method="post">
                   @csrf
-                  <h4>Approved Now: </h4>
+                  <h4>Approve Now: </h4>
                   <input type="hidden" name="id" value="{{ $resignMasterId }}">
                   <button type="submit" class="btn btn-approve">Approve</button>
                 </form>
