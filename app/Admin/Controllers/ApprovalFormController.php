@@ -17,15 +17,13 @@ class ApprovalFormController extends AdminController
 {
     protected function showApprovalForm()
     {
-
         $resignMasterId = request('id');
         $resignMasters = EmployeeResignDetails::where('resign_master_id', $resignMasterId)->with('employeeAccessTool')->get();
 
         $resignMaster = ResignMaster::find($resignMasterId);
         $authorBy = $resignMaster ? $resignMaster->author_by : '';
         $checkedBy = $resignMaster ? $resignMaster->checked_by : '';
-
-        
+        $rejectedReason = $resignMaster ? $resignMaster->rejected_reason : '';
 
         if ($resignMasters->isEmpty()) {
             return Redirect::back()->with('error', 'Invalid ID');
@@ -51,7 +49,7 @@ class ApprovalFormController extends AdminController
 
             return view('approved-form', compact('resignMasterId', 'resignMasters', 'resignMaster', 'employeeName', 'employeeId', 'employeeOffice', 'employeePersonal', 'employeeDesignation', 'checkedBySign', 'authorBySign'));
         } elseif ($resignMaster->approval_status_id == 3){
-            return view('reject-form', compact('resignMasterId', 'resignMasters', 'resignMaster', 'employeeName', 'employeeId', 'employeeOffice', 'employeePersonal', 'employeeDesignation', 'authorBy'));
+            return view('reject-form', compact('resignMasterId', 'resignMasters', 'resignMaster', 'employeeName', 'employeeId', 'employeeOffice', 'employeePersonal', 'employeeDesignation', 'authorBy', 'rejectedReason'));
         }
     }
 
@@ -69,25 +67,33 @@ class ApprovalFormController extends AdminController
     
             return redirect('/admin/approved-form')->with('success', 'Approval status updated successfully');
         } else {
-            // Handle the case when no user is logged in
             return redirect()->back()->with('error', 'User not logged in');
         }
     }
     public function rejectForm(Request $request)
     {
+        $request->validate([
+            'rejected_reason' => 'required|string',
+        ]);
         $resignMasterID = $request->input('id');
+        $rejectedReason = $request->input('rejected_reason');
         $loggedInUser = Auth::user();
 
         if ($loggedInUser) {
             $newApprovalStatusID = 3;
             $authorBy = $loggedInUser->name. ' (' . $loggedInUser->username . ')';
-    
+
             ResignMaster::where('id', $resignMasterID)
-                ->update(['approval_status_id' => $newApprovalStatusID, 'author_by' => $authorBy]);
-    
+                ->update([
+                    'approval_status_id' => $newApprovalStatusID,
+                    'author_by' => $authorBy,
+                    'rejected_reason' => $rejectedReason,
+                ]);    
+
             return redirect()->back()->with('success', 'Approval status updated successfully');
         } else {
             return redirect()->back()->with('error', 'User not logged in');
         }
     }
+
 }
