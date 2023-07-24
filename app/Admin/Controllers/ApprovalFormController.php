@@ -42,10 +42,13 @@ class ApprovalFormController extends AdminController
         }
         
         if (!empty($employeePersonal)) {
-            if (empty($mergedNumbers)) {
-                $mergedNumbers .= $employeePersonal;
+            if (!empty($mergedNumbers)) {
+                $mergedNumbers .= ', ';
             }
+            $mergedNumbers .= $employeePersonal;
         }
+        $mergedNumbers = rtrim($mergedNumbers, ', ');
+
         $employeeDesignation = $employee ? $employee->designation : '';
         
         if ($resignMaster->approval_status_id == 1) {
@@ -106,5 +109,4 @@ class ApprovalFormController extends AdminController
             return redirect()->back()->with('error', 'User not logged in');
         }
     }
-
 }
