@@ -48,7 +48,7 @@ class ApprovalFormController extends AdminController
             $mergedNumbers .= $employeePersonal;
         }
         $mergedNumbers = rtrim($mergedNumbers, ', ');
-
+            
         $employeeDesignation = $employee ? $employee->designation : '';
         
         if ($resignMaster->approval_status_id == 1) {
