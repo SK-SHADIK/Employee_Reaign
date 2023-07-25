@@ -21,17 +21,17 @@
 <p style="font-size:14px; border:2px solid #000; border-radius:10px; background:#000; padding: 10px;">php artisan key:generate</p><br><br>
 
 <h3 style="font-size:30px;">Database</h3>
-<p>Create Database</p>
-<p style="font-size:14px; border:2px solid #000; border-radius:10px; background:#000; padding: 10px;">create database employee_resign;</p><br><br>
+<!-- <p>Create Database</p> -->
+<p style="font-size:14px; border:2px solid #000; border-radius:10px; background:#000; padding: 10px;">create schema: employee_resign</p><br><br>
 
 <h3 style="font-size:20px;">Setup Database</h3>
 <p>Go to .env file and Edit values to match your database</p>
 <p style="font-size:14px; border:2px solid #000; border-radius:10px; background:#000; padding: 10px;">DB_CONNECTION=pgsql<br>
-DB_HOST=localhost<br>
-DB_PORT=5432<br>
-DB_DATABASE=employee_resign<br>
-DB_USERNAME=postgres<br>
-DB_PASSWORD=</p><br><br>
+DB_HOST=host<br>
+DB_PORT=port<br>
+DB_DATABASE=database_name<br>
+DB_USERNAME=database_username<br>
+DB_PASSWORD=database_password</p><br><br>
 
 <h3>Running migrations</h3>
 <p style="font-size:14px; border:2px solid #000; border-radius:10px; background:#000; padding: 10px;">php artisan admin:install</p><br><br>
@@ -41,8 +41,4 @@ DB_PASSWORD=</p><br><br>
 
 
 <p>Go to the <span style="margin-left: 10px; font-size:14px; border:2px solid #000; border-radius:10px; background:#000; padding: 10px;"> http://127.0.0.1:8000/admin </span></p><br>
-
-<div style="font-size:14px; border:2px solid #000; border-radius:10px; background:#000; padding: 10px;">
-<p>Username: admin</p>
-<p>password: admin</p></div><br><br>
 
