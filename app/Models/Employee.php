@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Employee extends Model
 {
-    protected $table = "employee";
+    protected $table = "hr.HR_EMP_DETAILS";
     const CREATED_AT = 'cd';
     const UPDATED_AT = 'ud';
 }

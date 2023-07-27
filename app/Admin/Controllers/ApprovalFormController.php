@@ -7,10 +7,8 @@ use App\Models\ResignMaster;
 use App\Models\EmployeeSign;
 use App\Models\Employee;
 use Encore\Admin\Controllers\AdminController;
-use Encore\Admin\Facades\Admin;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 
 class ApprovalFormController extends AdminController
