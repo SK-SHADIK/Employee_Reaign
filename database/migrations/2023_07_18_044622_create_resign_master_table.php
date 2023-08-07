@@ -15,8 +15,8 @@ class CreateResignMasterTable extends Migration
     {
         Schema::create('resign_master', function (Blueprint $table) {
             $table->id();
-            $table->unsignedbiginteger('employee_id');
-            $table->unsignedbiginteger('approval_status_id');
+            $table->string('employee_id');
+            $table->integer('approval_status_id');
             $table->string('checked_by', 255)->nullable();
             $table->string('author_by', 255)->nullable();
             $table->string('rejected_reason', 255)->nullable();
@@ -24,9 +24,6 @@ class CreateResignMasterTable extends Migration
             $table->timestamp('cd')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->string('ub', 255)->nullable();
             $table->timestamp('ud')->default(DB::raw('CURRENT_TIMESTAMP'));
-
-            $table->foreign('employee_id')->references('id')->on('employee');
-            $table->foreign('approval_status_id')->references('id')->on('approval_status');
         });
     }
 

@@ -29,8 +29,7 @@ class EmployeeAccessToolController extends AdminController
         $grid->column('id', __('Id'))->sortable();
         $grid->column('tool', __('Tool'));
         $grid->column('status', __('Status'))->display(function ($value) {
-            return $value ? '<span style="color: green; font-weight:900; ">Active</span>' :
-            '<span style="color: red; font-weight:900; ">Not Active</span>';});
+            return $value ? '<span style="color: green; font-weight:900; ">Active</span>' : '<span style="color: red; font-weight:900; ">Not Active</span>';});
         $grid->column('cd', __('Cd'))->sortable();
 
         $grid->filter(function ($filter) {

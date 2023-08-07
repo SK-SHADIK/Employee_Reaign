@@ -50,6 +50,9 @@ class EmployeeController extends AdminController
         $grid->column('internship_start_date', __('Internship start date'));
         $grid->column('internship_end_date', __('Internship end date'));
 
+        $grid->disableActions();
+        $grid->disableCreateButton();
+
         return $grid;
     }
 

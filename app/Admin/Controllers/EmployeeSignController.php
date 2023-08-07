@@ -29,7 +29,7 @@ class EmployeeSignController extends AdminController
         $grid->column('id', __('Id'))->sortable();
         $grid->column('employee_id', __('Employee Id'))->sortable();
         $grid->column('employee_sign', __('Employee sign'))->display(function ($value) {
-            
+
             $decodeImage = "<img src='" . $value . "' alt='Employee Sign' style='height: 60px; width:120px;' />";
             return $decodeImage;
         });
@@ -71,24 +71,31 @@ class EmployeeSignController extends AdminController
         $form = new Form(new EmployeeSign());
 
 
-       $form->text('employee_id', 'Employee Id');
+        $Employee = \App\Models\Employee::all()->map(function ($emp) {
+            return [
+                'id' => $emp->emp_id,
+                'label' => "{$emp->emp_id} - {$emp->emp_name}",
+            ];
+        })->pluck('label', 'id')->toArray();
+
+        $form->select('employee_id', __('Employee ID & Name'))->options($Employee);
        $form->image('employee_sign', 'Image');
-       
+
        $form->hidden('cb', __('Cb'))->value(auth()->user()->username);
        $form->hidden('ub', __('Ub'))->value(auth()->user()->username);
 
        $form->saved(function (Form $form) {
             $id=$form->model()->id;
             $employeeSign=EmployeeSign::find($id);
-            
+
             $imagePath = public_path('upload/' . $employeeSign->employee_sign);
             $imageData = 'data:image/png;base64,' . base64_encode(file_get_contents($imagePath));
             $employeeSign->employee_sign = $imageData;
             $employeeSign->save();
             unlink($imagePath);
         });
-       
+
        return $form;
     }
-    
+
 }

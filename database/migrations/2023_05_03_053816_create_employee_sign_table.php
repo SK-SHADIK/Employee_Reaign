@@ -15,7 +15,7 @@ class CreateEmployeeSignTable extends Migration
     {
         Schema::create('employee_sign', function (Blueprint $table) {
             $table->id();
-            $table->integer('employee_id');
+            $table->string('employee_id');
             $table->text('employee_sign');
             $table->string('cb', 255)->nullable();
             $table->timestamp('cd')->default(DB::raw('CURRENT_TIMESTAMP'));

@@ -40,7 +40,7 @@ class ResignMasterController extends AdminController
             $url = '/admin/approval-form?id=' . $id;
             return '<a href="' . $url . '" class="btn" style="background-color: #8A2061; color: #fff;">Preview</a>';
         });
-        
+
         $grid->model()->orderBy('id', 'desc');
 
         $grid->quickSearch(function ($model, $query) {
@@ -69,13 +69,13 @@ class ResignMasterController extends AdminController
                         break;
                 }
             }, 'Approval Status', 'approval_status_filter')->radio([
-                '' => 'All',
-                '1' => 'Pending',
-                '2' => 'Approved',
-                '3' => 'Rejected',
-                'none' => 'None',
-            ]);
-        
+                        '' => 'All',
+                        '1' => 'Pending',
+                        '2' => 'Approved',
+                        '3' => 'Rejected',
+                        'none' => 'None',
+                    ]);
+
         });
 
         $grid->disableActions();
@@ -102,7 +102,7 @@ class ResignMasterController extends AdminController
         $show->field('cd', __('Cd'));
         $show->field('ub', __('Ub'));
         $show->field('ud', __('Ud'));
-        
+
         return $show;
 
     }
@@ -122,7 +122,7 @@ class ResignMasterController extends AdminController
                 'label' => "{$emp->emp_id} - {$emp->emp_name}",
             ];
         })->pluck('label', 'id')->toArray();
-        
+
         $form->select('employee_id', __('Employee ID & Name'))->options($Employee);
 
         $form->hidden('approval_status_id', __('Approval status id'))->default(1);
@@ -132,19 +132,19 @@ class ResignMasterController extends AdminController
         $form->hidden('ub', __('Ub'))->value(auth()->user()->name);
 
         $tools = \App\Models\EmployeeAccessTool::where('status', true)->get();
-        
-        foreach ($tools as $key=> $tool) {
+
+        foreach ($tools as $key => $tool) {
             $form->text('employee_access_tool')->value($tool->tool)->readonly();
             $form->hidden('employee_access_tool_id')->value($tool->id);
-            $form->switch('had_access'. $key, __('Had access'));
-            $form->switch('access_removed'. $key, __('Access removed'));
-            $form->text('remarks'. $key, __('Remarks'));
-            $form->hidden('cb'.$key, __('Cb'))->value(auth()->user()->name);
-            $form->hidden('ub'.$key, __('Ub'))->value(auth()->user()->name);
+            $form->switch('had_access' . $key, __('Had access'));
+            $form->switch('access_removed' . $key, __('Access removed'));
+            $form->text('remarks' . $key, __('Remarks'));
+            $form->hidden('cb' . $key, __('Cb'))->value(auth()->user()->name);
+            $form->hidden('ub' . $key, __('Ub'))->value(auth()->user()->name);
         }
         $form->saving(function (Form $form) {
             $resignMaster = new \App\Models\ResignMaster();
-        
+
             $resignMaster->employee_id = $form->input('employee_id');
             $resignMaster->approval_status_id = $form->input('approval_status_id');
             $resignMaster->checked_by = $form->input('checked_by');
@@ -152,9 +152,9 @@ class ResignMasterController extends AdminController
             $resignMaster->cb = $form->input('cb');
             $resignMaster->ub = $form->input('ub');
             $resignMaster->save();
-        
+
             $tools = \App\Models\EmployeeAccessTool::where('status', true)->get();
-        
+
             foreach ($tools as $key => $tool) {
                 $employeeId = $form->input('employee_id');
                 $toolId = $tool->id;
@@ -163,7 +163,7 @@ class ResignMasterController extends AdminController
                 $remarks = $form->input('remarks' . $key);
                 $cb = $form->input('cb' . $key);
                 $ub = $form->input('ub' . $key);
-        
+
                 $resignDetails = new \App\Models\EmployeeResignDetails();
                 $resignDetails->resign_master_id = $resignMaster->id;
                 $resignDetails->employee_id = $employeeId;
@@ -175,10 +175,9 @@ class ResignMasterController extends AdminController
                 $resignDetails->ub = $ub;
                 $resignDetails->save();
             }
-        
+
             return redirect('/admin/resign-master');
         });
-        
 
         return $form;
     }
